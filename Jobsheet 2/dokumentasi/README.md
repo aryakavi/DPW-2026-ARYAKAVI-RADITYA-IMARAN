@@ -49,27 +49,39 @@ jobsheet-02/
    yang sama.
 
     **Jawaban**
-    Saya mengubah skema tema warna menjadi warna hijau, sehingga yang sebelumnya terlihat seperti
-    ![foto1](img/Simpus1.png)
-    Menjadi
-    ![foto2](img/Simpus2.png)
+    *   Saya mengubah skema tema warna menjadi warna hijau, sehingga yang sebelumnya terlihat seperti
+    ![foto1](../img/Simpus1.png)
+    
+    *   Menjadi
+    ![foto2](../img/Simpus2.png)
 
 2. **Tambah kolom keempat** di grid kartu statistik — tambahkan satu
    `<article>` baru di HTML (misalnya "Buku Terlambat"), lalu ubah
    `repeat(3, 1fr)` menjadi `repeat(4, 1fr)` di CSS.
 
    **Jawaban**
-    Setelah mengubah grid, lalu menambahkan tombol dummy, hasilnya menjadi seperti :
-    ![foto3](img/Simpus3.png)]
+    *   Setelah mengubah grid, lalu menambahkan tombol dummy, hasilnya menjadi seperti :
+    ![foto3](../img/Simpus3.png)
 
 3. **Buat tombol ketiga di tabel** — tambahkan tombol "Detail" di antara
    Edit dan Hapus pada `buku/list.html`, lalu amati apakah warnanya
-   sesuai harapan (ingat catatan di [bab 7 §7.6](07-css-tabel.md#76-tombol-aksi-edit--hapus) tentang
-   `:first-of-type`/`:last-of-type` yang berbasis posisi, bukan makna).
-   Coba perbaiki dengan memberi `class` khusus jika warnanya tidak
-   sesuai.
+   sesuai harapan (ingat catatan di [bab 7 §7.6](07-css-tabel.md#76-tombol-aksi-edit--hapus) tentang `:first-of-type`/`:last-of-type` yang berbasis posisi, bukan makna). Coba perbaiki dengan memberi `class` khusus jika warnanya tidaksesuai.
+
+    **Jawaban**
+    *   Menambah tombol ketiga di dalam list tabel buku, yang sebelumnya seperti ini
+    ![foto4](../img/Simpus4.png)
+    
+    *   Berubah menjadi seperti
+    ![foto5](../img/Simpus5.png)
 
 4. **Uji responsivitas sederhana** — perkecil lebar jendela browser
    secara bertahap sampai sangat sempit (seperti lebar HP), amati kapan
    `flex-wrap: wrap` pada navbar mulai memindahkan menu ke baris baru.
+
+    **Jawaban**
+    *   Simulasi mode desktop
+    ![foto6](../img/Simpus6.png)
+
+    *   Simulasi mode smartphone
+    ![foto7](../img/Simpus7.png)
 
