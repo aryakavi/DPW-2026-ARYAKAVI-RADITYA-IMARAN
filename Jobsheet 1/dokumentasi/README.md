@@ -5,7 +5,9 @@
 | Kelas | TI - 2F |
 | Repository | ([https://github.com/aryakavi/DPW-2026-ARYAKAVI-RADITYA-IMARAN]) |
 
-# Dokumentasi Jobsheet 1: SIMPUS-Mini & Dasar Pemrograman Web
+---
+
+# Dokumentasi Jobsheet 1: SIMPUS-Mini & Dasar Pemrograman Web 📚
 
 ## 1. Deskripsi Jobsheet 1 (SIMPUS-Mini)
 Jobsheet 1 bertujuan untuk membuat kerangka awal aplikasi **SIMPUS-Mini**, sistem perpustakaan mini yang mengelola data buku dan anggota. inti utama dari sistem ini antara lain :
