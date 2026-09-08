@@ -30,5 +30,16 @@ menjadi
 ![foto1](../img/Simpus2.png) 
 
 3. Terapkan pola table-responsive ke elemen lain yang berpotensi melebar di layar sempit, misalnya kalau suatu saat kamu menambahkan blok kode <pre> yang panjang di salah satu halaman.
+
+Elemen yang memanjang seperti <pre> bisa merusal layout di layar HP, maka bisa menerapkan responsive table. Maka saya menambahkan kode
+```CSS
+.code-responsive, 
+pre {
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: pre;
+}
+```
+
 4. Ubah posisi ikon hamburger — misalnya pindahkan .nav-toggle-label ke urutan terakhir di <header> (setelah <nav>) lalu amati apakah sibling combinator .nav-toggle:checked ~ nav di bab 3 §3.5 masih bekerja — ingat catatan bahwa combinator ~ mensyaratkan target berada setelah elemen sumbernya di HTML.
 5. Bandingkan dengan pendekatan mobile-first — coba tulis ulang style.css dari nol memakai @media (min-width: ...) alih-alih max-width, dan rasakan sendiri bedanya alur berpikirnya.
