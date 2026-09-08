@@ -51,3 +51,31 @@ Sesudah :
 ![foto4](../img/Simplus4.png)
 
 5. Bandingkan dengan pendekatan mobile-first — coba tulis ulang style.css dari nol memakai @media (min-width: ...) alih-alih max-width, dan rasakan sendiri bedanya alur berpikirnya.
+
+Saat ini desain menggunakan prioritas Desktop-first, dengan layar default di layar besar dahulu lalu menggunakan @media (max-width:..) untuk layar yang lebi kecil. Perbedaanya :
+- Alur Desktop First : Membuat grid berjejer 4 kolom dan menjadikannya default, dan jika layarnya dibawah 768px berubah menjadi 2 kolom, jika mengecil dibawah 480px berubah menjadi 1 kolom.
+- Alur Mobile First : Membuat desain HP dengan 1 kolom secara default, jika layarnya diatas 480px berubah menjadi 2 kolom, dan jika layar diatas 900px berubah menjadi 4 kolom
+
+Apabila mobile first maka kode berubah menjadi :
+```CSS
+/* 1. Style dasar buat Mobile - Tidak perlu di dalam blok @media */
+main section:nth-of-type(2) {
+    display: grid;
+    grid-template-columns: 1fr; /* Default 1 kolom */
+    gap: 1rem;
+}
+
+/* 2. Tablet */
+@media (min-width: 480px) {
+    main section:nth-of-type(2) {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
+    }
+}
+
+/* 3. Desktop */
+@media (min-width: 900px) {
+    main section:nth-of-type(2) {
+        grid-template-columns: repeat(4, 1fr); /* 4 kolom di layar besar */
+    }
+}
+```
