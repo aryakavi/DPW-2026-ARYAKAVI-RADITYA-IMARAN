@@ -42,4 +42,12 @@ pre {
 ```
 
 4. Ubah posisi ikon hamburger — misalnya pindahkan .nav-toggle-label ke urutan terakhir di <header> (setelah <nav>) lalu amati apakah sibling combinator .nav-toggle:checked ~ nav di bab 3 §3.5 masih bekerja — ingat catatan bahwa combinator ~ mensyaratkan target berada setelah elemen sumbernya di HTML.
+
+Jika saya bereksperimen dan merubah posisi kode untuk nav-toggle-label dan ditaruh setelah <nav> maka burger menu akan hilang. Jika saya merubah posisi input saja tanpa merubah label, maka hamburger akan tetap ada namun tidak dapat digunakan.
+Sebelum :
+![foto3](../img/Simplus3.png)
+
+Sesudah :
+![foto4](../img/Simplus4.png)
+
 5. Bandingkan dengan pendekatan mobile-first — coba tulis ulang style.css dari nol memakai @media (min-width: ...) alih-alih max-width, dan rasakan sendiri bedanya alur berpikirnya.
