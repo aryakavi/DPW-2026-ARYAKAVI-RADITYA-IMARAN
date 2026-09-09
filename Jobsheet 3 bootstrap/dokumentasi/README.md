@@ -7,75 +7,51 @@
 
 ---
 
-#6. Rangkuman & Latihan Lanjutan
+#6. Rangkuman & Perbandingan dengan CSS Murni
 
-6.4 Ide Latihan Tambahan (Opsional)
-1. Tambah breakpoint baru — misalnya @media (min-width: 1400px) untuk layar monitor sangat lebar, ubah main { max-width: 1000px; } (dari dokumentasi jobsheet-02) menjadi lebih lebar khusus di breakpoint ini.
-   
-Menambahkan line baru di dalam CSS berupa menambahkan max width dari 1000px menjadi 1250px.
-```CSS
-/* Monitor Sangat Lebar */
-@media (min-width: 1400px) {
-    main {
-        max-width: 1250px; /* Nilai ini bisa disesuaikan dengan kebutuhan desain */
-    }
-}
+
+## 6.2 Tabel Perbandingan Class Bootstrap vs CSS Murni
+
+Ringkasan seluruh pemetaan yang sudah dibahas di bab-bab sebelumnya:
+
+| Kebutuhan | CSS Murni (jobsheet-03 asli) | Bootstrap (jobsheet ini) |
+|---|---|---|
+| Membatasi & menengahkan lebar konten | `main { max-width: 1000px; margin: 0 auto; }` | `.container` |
+| Kartu putih dengan bayangan | `section { border-radius: 8px; box-shadow: ...; }` | `.card` + `.shadow-sm` |
+| Grid 3 kolom kartu statistik | `display: grid; grid-template-columns: repeat(3, 1fr);` | `.row` + `.col-md-4` |
+| Navbar hamburger | Checkbox hack (`:checked` + `~`) | `.navbar-toggler` + `.collapse` (JS) |
+| Tabel belang & hover | `nth-child(even)`, `:hover` | `.table-striped`, `.table-hover` |
+| Tabel scroll horizontal | `.table-responsive { overflow-x: auto; }` (custom) | `.table-responsive` (bawaan, nama sama) |
+| Tombol warna | `td button:first-of-type { background: ...; }` | `.btn-warning`, `.btn-danger` |
+| Input & select form | `form input { width:100%; padding:...; border:...; }` | `.form-control`, `.form-select` |
+| Breakpoint tablet/mobile | `@media (max-width: 768px)` / `(max-width: 480px)` custom | Infix bawaan: `sm`, `md`, `lg`, `xl`, `xxl` |
+| Baris CSS custom dibutuhkan | ~245 baris | ~15 baris |
+
+## 6.4 Ide Latihan Tambahan (Opsional)
+1. Ganti warna brand ke tema bawaan Bootstrap — hapus semua style="background-color:#1d5b8a;" dan style="color:#1d5b8a;", ganti dengan class bawaan seperti .bg-primary/.text-primary, lalu bandingkan seberapa banyak baris style.css yang jadi tidak diperlukan lagi.
+2. Tambah breakpoint ketiga di grid kartu statistik — sisipkan col-sm-6 di antara col-12 dan col-md-4 (bab 4 §4.3) supaya ada juga tampilan 2 kolom di breakpoint sm, meniru progresi 3 tingkat dari versi CSS murni.
+3. Ganti breakpoint navbar dari .navbar-expand-lg menjadi .navbar-expand-md, amati di lebar layar berapa navbar mulai "terlipat" jadi hamburger — buktikan bahwa breakpoint Bootstrap bisa diganti hanya lewat nama class, tanpa CSS tambahan sama sekali.
+4. Tambahkan komponen Bootstrap baru yang belum dipakai jobsheet ini, misalnya .badge untuk menandai status "Tersedia"/"Kosong" di kolom Stok pada buku/list.html, atau .alert untuk menampilkan pesan sukses setelah form disimpan.
+5. Bandingkan ukuran file — buka DevTools tab Network, refresh index.html versi Bootstrap ini dan bandingkan total ukuran yang diunduh (termasuk CSS+JS Bootstrap dari CDN) dengan versi jobsheet-03 CSS murni yang hanya memuat satu file style.css kecil — diskusikan trade-off ukuran unduhan vs kecepatan pengembangan.
+
+## Struktur Folder
+
+```
+jobsheet-03-bootstrap/
+├── index.html              # Beranda
+├── assets/
+│   └── css/
+│       └── style.css       # Override kecil di atas Bootstrap (~15 baris)
+├── buku/
+│   ├── list.html
+│   └── tambah.html
+├── anggota/
+│   ├── list.html
+│   └── tambah.html
+└── Dokumentasi/             # Folder dokumentasi ini
 ```
 
-2. Ubah breakpoint tablet dari 768px menjadi 900px, lalu amati di lebar layar berapa susunan kartu berubah — buktikan bahwa breakpoint memang bisa disesuaikan bebas sesuai kebutuhan desain.
-Setelah saya mengubah breakpoint dari 768 ke 900px, perubahannya terlihat dari
-![foto1](../img/Simpus1.png)
-
-menjadi
-![foto1](../img/Simpus2.png) 
-
-3. Terapkan pola table-responsive ke elemen lain yang berpotensi melebar di layar sempit, misalnya kalau suatu saat kamu menambahkan blok kode <pre> yang panjang di salah satu halaman.
-
-Elemen yang memanjang seperti <pre> bisa merusal layout di layar HP, maka bisa menerapkan responsive table. Maka saya menambahkan kode
-```CSS
-.code-responsive, 
-pre {
-    overflow-x: auto;
-    max-width: 100%;
-    white-space: pre;
-}
-```
-
-4. Ubah posisi ikon hamburger — misalnya pindahkan .nav-toggle-label ke urutan terakhir di <header> (setelah <nav>) lalu amati apakah sibling combinator .nav-toggle:checked ~ nav di bab 3 §3.5 masih bekerja — ingat catatan bahwa combinator ~ mensyaratkan target berada setelah elemen sumbernya di HTML.
-
-Jika saya bereksperimen dan merubah posisi kode untuk nav-toggle-label dan ditaruh setelah <nav> maka burger menu akan hilang. Jika saya merubah posisi input saja tanpa merubah label, maka hamburger akan tetap ada namun tidak dapat digunakan.
-Sebelum :
-![foto3](../img/Simplus3.png)
-
-Sesudah :
-![foto4](../img/Simplus4.png)
-
-5. Bandingkan dengan pendekatan mobile-first — coba tulis ulang style.css dari nol memakai @media (min-width: ...) alih-alih max-width, dan rasakan sendiri bedanya alur berpikirnya.
-
-Saat ini desain menggunakan prioritas Desktop-first, dengan layar default di layar besar dahulu lalu menggunakan @media (max-width:..) untuk layar yang lebi kecil. Perbedaanya :
-- Alur Desktop First : Membuat grid berjejer 4 kolom dan menjadikannya default, dan jika layarnya dibawah 768px berubah menjadi 2 kolom, jika mengecil dibawah 480px berubah menjadi 1 kolom.
-- Alur Mobile First : Membuat desain HP dengan 1 kolom secara default, jika layarnya diatas 480px berubah menjadi 2 kolom, dan jika layar diatas 900px berubah menjadi 4 kolom
-
-Apabila mobile first maka kode berubah menjadi :
-```CSS
-/* 1. Style dasar buat Mobile - Tidak perlu di dalam blok @media */
-main section:nth-of-type(2) {
-    display: grid;
-    grid-template-columns: 1fr; /* Default 1 kolom */
-    gap: 1rem;
-}
-
-/* 2. Tablet */
-@media (min-width: 480px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
-    }
-}
-
-/* 3. Desktop */
-@media (min-width: 900px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(4, 1fr); /* 4 kolom di layar besar */
-    }
-}
-```
+Tidak ada file JavaScript custom yang perlu ditulis — komponen navbar
+Bootstrap sudah membawa JavaScript-nya sendiri.
+Silakan baca urut dari nomor 1, atau langsung loncat ke bagian yang ingin
+dipahami.
