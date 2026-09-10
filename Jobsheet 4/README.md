@@ -7,18 +7,16 @@
 
 ---
 
-# Jobsheet 3 — Responsive Design
+# Jobsheet 4 — UI/UX Design
 
-Sub-CPMK: Membangun tampilan responsif.
+Sub-CPMK: Merancang UI/UX aplikasi (proyek).
 
-## Perubahan dari Jobsheet 2
-- Tambah `<meta name="viewport">` di semua halaman.
-- Navbar: hamburger menu memakai teknik **checkbox hack** murni CSS (`input[type=checkbox] + label`), aktif di layar ≤480px.
-- Tabel dibungkus `<div class="table-responsive">` agar bisa di-scroll horizontal di layar sempit.
-- Tambah media query di `style.css`: grid kartu statistik 3 → 2 → 1 kolom mengikuti breakpoint tablet/mobile.
+## Perubahan dari Jobsheet 3
+- Tidak ada perubahan kode — halaman HTML/CSS tetap sama persis dengan Jobsheet 3.
+- Tambah `docs/wireframe.md`: wireframe teks + user flow untuk fitur yang **belum dibangun** (Login, Dashboard Petugas, Peminjaman, Pengembalian, Riwayat).
 
 ## Cara menjalankan
-Buka `index.html` di browser, uji dengan DevTools responsive mode pada 3 breakpoint (mobile ≤480px, tablet ~768px, desktop ≥1024px).
+Sama seperti Jobsheet 3 — buka `index.html`.
 
 ## Catatan
-- Hamburger di jobsheet ini masih murni CSS (checkbox hack). Di Jobsheet 5 akan diganti dengan toggle berbasis JavaScript.
+Dokumen `docs/wireframe.md` menjadi acuan struktur HTML baru yang mulai diimplementasikan pada Jobsheet 5 dan seterusnya (interaktivitas JS, lalu PHP/PostgreSQL untuk fitur Login & Peminjaman).

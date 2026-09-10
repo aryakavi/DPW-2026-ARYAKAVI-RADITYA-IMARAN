@@ -7,75 +7,60 @@
 
 ---
 
-#6. Rangkuman & Latihan Lanjutan
+# Dokumentasi Jobsheet 4 — UI/UX Design
 
-6.4 Ide Latihan Tambahan (Opsional)
-1. Tambah breakpoint baru — misalnya @media (min-width: 1400px) untuk layar monitor sangat lebar, ubah main { max-width: 1000px; } (dari dokumentasi jobsheet-02) menjadi lebih lebar khusus di breakpoint ini.
-   
-Menambahkan line baru di dalam CSS berupa menambahkan max width dari 1000px menjadi 1250px.
-```CSS
-/* Monitor Sangat Lebar */
-@media (min-width: 1400px) {
-    main {
-        max-width: 1250px; /* Nilai ini bisa disesuaikan dengan kebutuhan desain */
-    }
-}
+Dokumentasi ini melanjutkan
+[dokumentasi jobsheet-03](../../jobsheet-03/Dokumentasi/README.md), tapi
+isinya **berbeda bentuk** dari dokumentasi jobsheet sebelumnya. Kalau
+jobsheet-01 sampai jobsheet-03 dokumentasinya membedah kode HTML/CSS
+baris per baris, jobsheet-04 **tidak menambah kode apa pun** — sesuai
+[README.md](../README.md) jobsheet ini: *"Tidak ada perubahan kode —
+halaman HTML/CSS tetap sama persis dengan Jobsheet 3."*
+
+Jadi dokumentasi ini fokus ke hal yang benar-benar baru: **proses
+perancangan (UI/UX design)** yang dituangkan di `docs/wireframe.md` —
+sebuah dokumen rencana untuk fitur yang **belum ada kodenya** (Login,
+Dashboard Petugas, Peminjaman, Pengembalian, Riwayat), yang baru akan
+mulai diimplementasikan di jobsheet-jobsheet berikutnya.
+
+## Kenapa Ada Jobsheet Tanpa Kode Baru?
+
+Ini bukan kekurangan — justru ini bagian penting dari cara kerja
+pengembangan software yang benar. Sebelum menulis kode untuk fitur baru
+yang cukup kompleks (Login, transaksi Peminjaman/Pengembalian),
+developer terlebih dulu **merancang** bagaimana fitur itu akan terlihat
+dan bagaimana alur penggunaannya — supaya tidak menulis kode dulu baru
+menyadari alurnya membingungkan atau tidak lengkap. Proses merancang ini
+disebut **UI/UX design**, dan dituangkan dalam bentuk **wireframe** dan
+**user flow** — dua istilah yang akan dijelaskan tuntas di bab 2 dan 3.
+
+## Daftar Isi
+
+1. [Konsep Dasar UI/UX Design](01-konsep-uiux-design.md)
+2. [Cara Membaca Wireframe](02-cara-membaca-wireframe.md)
+3. [User Flow: Peminjaman & Pengembalian](03-user-flow-peminjaman-pengembalian.md)
+4. [Aktor & Kaitannya dengan Otorisasi](04-aktor-dan-otorisasi.md)
+5. [Keterhubungan dengan Kode yang Sudah Ada](05-keterhubungan-dengan-kode.md)
+6. [Rangkuman & Latihan Lanjutan](06-rangkuman-latihan.md)
+
+## Struktur Folder
+
+```
+jobsheet-04/
+├── index.html              # Sama persis dengan jobsheet-03
+├── assets/css/style.css    # Sama persis dengan jobsheet-03
+├── buku/                    # Sama persis dengan jobsheet-03
+├── anggota/                 # Sama persis dengan jobsheet-03
+├── docs/
+│   └── wireframe.md         # BARU — rancangan fitur yang belum dikoding
+├── Infografis.png
+├── README.md
+└── Dokumentasi/             # Folder dokumentasi ini
 ```
 
-2. Ubah breakpoint tablet dari 768px menjadi 900px, lalu amati di lebar layar berapa susunan kartu berubah — buktikan bahwa breakpoint memang bisa disesuaikan bebas sesuai kebutuhan desain.
-Setelah saya mengubah breakpoint dari 768 ke 900px, perubahannya terlihat dari
-![foto1](../img/Simpus1.png)
-
-menjadi
-![foto1](../img/Simpus2.png) 
-
-3. Terapkan pola table-responsive ke elemen lain yang berpotensi melebar di layar sempit, misalnya kalau suatu saat kamu menambahkan blok kode <pre> yang panjang di salah satu halaman.
-
-Elemen yang memanjang seperti <pre> bisa merusal layout di layar HP, maka bisa menerapkan responsive table. Maka saya menambahkan kode
-```CSS
-.code-responsive, 
-pre {
-    overflow-x: auto;
-    max-width: 100%;
-    white-space: pre;
-}
-```
-
-4. Ubah posisi ikon hamburger — misalnya pindahkan .nav-toggle-label ke urutan terakhir di <header> (setelah <nav>) lalu amati apakah sibling combinator .nav-toggle:checked ~ nav di bab 3 §3.5 masih bekerja — ingat catatan bahwa combinator ~ mensyaratkan target berada setelah elemen sumbernya di HTML.
-
-Jika saya bereksperimen dan merubah posisi kode untuk nav-toggle-label dan ditaruh setelah <nav> maka burger menu akan hilang. Jika saya merubah posisi input saja tanpa merubah label, maka hamburger akan tetap ada namun tidak dapat digunakan.
-Sebelum :
-![foto3](../img/Simplus3.png)
-
-Sesudah :
-![foto4](../img/Simplus4.png)
-
-5. Bandingkan dengan pendekatan mobile-first — coba tulis ulang style.css dari nol memakai @media (min-width: ...) alih-alih max-width, dan rasakan sendiri bedanya alur berpikirnya.
-
-Saat ini desain menggunakan prioritas Desktop-first, dengan layar default di layar besar dahulu lalu menggunakan @media (max-width:..) untuk layar yang lebi kecil. Perbedaanya :
-- Alur Desktop First : Membuat grid berjejer 4 kolom dan menjadikannya default, dan jika layarnya dibawah 768px berubah menjadi 2 kolom, jika mengecil dibawah 480px berubah menjadi 1 kolom.
-- Alur Mobile First : Membuat desain HP dengan 1 kolom secara default, jika layarnya diatas 480px berubah menjadi 2 kolom, dan jika layar diatas 900px berubah menjadi 4 kolom
-
-Apabila mobile first maka kode berubah menjadi :
-```CSS
-/* 1. Style dasar buat Mobile - Tidak perlu di dalam blok @media */
-main section:nth-of-type(2) {
-    display: grid;
-    grid-template-columns: 1fr; /* Default 1 kolom */
-    gap: 1rem;
-}
-
-/* 2. Tablet */
-@media (min-width: 480px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
-    }
-}
-
-/* 3. Desktop */
-@media (min-width: 900px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(4, 1fr); /* 4 kolom di layar besar */
-    }
-}
-```
+Karena HTML/CSS-nya identik dengan jobsheet-03, kamu tidak perlu membaca
+ulang penjelasan tag/CSS — cukup rujuk kembali ke
+[dokumentasi jobsheet-01](../../jobsheet-01/Dokumentasi/README.md),
+[jobsheet-02](../../jobsheet-02/Dokumentasi/README.md), dan
+[jobsheet-03](../../jobsheet-03/Dokumentasi/README.md) kalau perlu
+menyegarkan ingatan.
