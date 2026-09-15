@@ -7,16 +7,20 @@
 
 ---
 
-# Jobsheet 4 — UI/UX Design
+# Jobsheet 5 — JavaScript DOM & Event
 
-Sub-CPMK: Merancang UI/UX aplikasi (proyek).
+Sub-CPMK: Menerapkan manipulasi DOM & event JavaScript.
 
-## Perubahan dari Jobsheet 3
-- Tidak ada perubahan kode — halaman HTML/CSS tetap sama persis dengan Jobsheet 3.
-- Tambah `docs/wireframe.md`: wireframe teks + user flow untuk fitur yang **belum dibangun** (Login, Dashboard Petugas, Peminjaman, Pengembalian, Riwayat).
+## Perubahan dari Jobsheet 4
+- Tambah `assets/js/app.js`.
+- Hamburger menu: checkbox hack (CSS) diganti tombol + JS (`nav.classList.toggle("nav-open")`).
+- Form Tambah Buku & Tambah Anggota: validasi client-side (`initValidasiForm`) — field wajib, rentang tahun, stok non-negatif — pesan error tampil inline via manipulasi DOM (`insertAdjacentElement`).
+- Tabel Daftar Buku & Daftar Anggota: kolom pencarian real-time (`initTableFilter`) yang menyaring baris via `keyup`.
+- Tombol Hapus (`.btn-hapus`): menampilkan `confirm()` lalu menghapus baris dari tampilan (masih front-end saja, belum ke server).
 
 ## Cara menjalankan
-Sama seperti Jobsheet 3 — buka `index.html`.
+Buka `index.html` di browser. Coba: submit form kosong (muncul error), ketik di kolom cari (tabel tersaring), klik Hapus (muncul konfirmasi).
 
 ## Catatan
-Dokumen `docs/wireframe.md` menjadi acuan struktur HTML baru yang mulai diimplementasikan pada Jobsheet 5 dan seterusnya (interaktivitas JS, lalu PHP/PostgreSQL untuk fitur Login & Peminjaman).
+- Validasi di sini murni client-side dan bisa dilewati (nonaktifkan JS). Validasi server-side ditambahkan di Jobsheet 7 sebagai lapisan kedua yang wajib.
+- Hapus baris di jobsheet ini hanya menghilangkan dari tampilan (belum persisten) — akan diganti proses hapus sungguhan ke database mulai Jobsheet 9.
