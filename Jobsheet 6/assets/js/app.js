@@ -111,7 +111,7 @@ function initValidasiForm() {
     if (!form) return;
 
     // Penambahan line Latihan 5 satu daftar untuk edua form dan mengabaikan field yang tidak ada
-    const fieldWajib = ["judul", "nama", "pengarang", "tahun", "isbn", "stok", "no_anggota"];
+    const fieldWajib = ["judul", "nama", "pengarang", "tahun", "stok", "no_anggota"];
     const fields = fieldWajib.map(function (nama) {
         return form.querySelector("[name='" + nama + "']");
     }).filter(function (input) {
@@ -147,6 +147,15 @@ function initValidasiForm() {
             }
         });
 
+        const isbn = form.querySelector("[name='isbn']");
+        if (isbn) {
+            hapusError(isbn);
+            if (isbn.value !== "" && !/^[0-9-]+$/.test(isbn.value)) {
+                tampilkanError(isbn, "ISBN hanya boleh berisi angka 0–9 dan tanda hubung (-).");
+                valid = false;
+            }
+        }
+
         if (!valid) {
             e.preventDefault();
             // Latihan 5 mengikuti urutan field HTML bukan array.
@@ -156,6 +165,7 @@ function initValidasiForm() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+   initTableCounter();
    initNavToggle();
    initHapusConfirm();
    initTableFilter();
