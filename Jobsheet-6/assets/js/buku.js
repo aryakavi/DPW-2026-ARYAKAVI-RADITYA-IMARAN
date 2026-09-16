@@ -5,6 +5,8 @@ async function muatDaftarBuku() {
     const table = tbody.closest("table");
     if (table.getAttribute("aria-busy") === "true") return;
 
+    const reload = document.getElementById("reload-buku");
+    if (reload) reload.disabled = true;
     table.setAttribute("aria-busy", "true");
     loading.style.display = "block";
     tbody.replaceChildren();
@@ -48,6 +50,8 @@ async function muatDaftarBuku() {
         loading.style.display = "none";
         table.setAttribute("aria-busy", "false");
         table.dispatchEvent(new Event("table:updated"));
+        if (reload) reload.disabled = false;
+        table.dispatchEvent(new Event("table:updated"));
     }
 }
 
@@ -61,4 +65,8 @@ function tampilkanStatusBuku(tbody, pesan) {
     tbody.replaceChildren(tr);
 }
 
-document.addEventListener("DOMContentLoaded", muatDaftarBuku);
+document.addEventListener("DOMContentLoaded", function () {
+    const reload = document.getElementById("reload-buku");
+    if (reload) reload.addEventListener("click", muatDaftarBuku);
+    muatDaftarBuku();
+});
