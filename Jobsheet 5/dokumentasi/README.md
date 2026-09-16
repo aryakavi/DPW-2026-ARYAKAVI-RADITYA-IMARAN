@@ -9,64 +9,29 @@
 
 # Dokumentasi Jobsheet 5 — JavaScript DOM & Event
 
-Dokumentasi ini melanjutkan
-[dokumentasi jobsheet-03](../../jobsheet-03/Dokumentasi/README.md) (HTML/CSS
-responsif) dan [jobsheet-04](../../jobsheet-04/Dokumentasi/README.md)
-(rancangan UI/UX). Jobsheet-05 adalah titik penting: ini **pertama
-kalinya** aplikasi SIMPUS-Mini punya **JavaScript** — kode yang membuat
-halaman benar-benar bisa "bereaksi" terhadap tindakan pengguna, bukan
-sekadar tampilan statis.
+Dokumentasi ini melanjutkan [dokumentasi jobsheet-03](../../jobsheet-03/Dokumentasi/README.md) (HTML/CSS responsif) dan [jobsheet-04](../../jobsheet-04/Dokumentasi/README.md) (rancangan UI/UX). Jobsheet-05 adalah titik penting: ini **pertama kalinya** aplikasi SIMPUS-Mini punya **JavaScript** — kode yang membuat halaman benar-benar bisa "bereaksi" terhadap tindakan pengguna, bukansekadar tampilan statis.
 
 ## 1. Tentang `docs/wireframe.md`
 
-File ini **identik persis** dengan
-[`docs/wireframe.md` di jobsheet-04](../../jobsheet-04/docs/wireframe.md) —
-tidak ada perubahan rancangan UI/UX baru di jobsheet ini. Kalau kamu
-belum membaca rancangan itu, baca dulu
-[dokumentasi jobsheet-04](../../jobsheet-04/Dokumentasi/README.md)
-sebelum lanjut ke sini.
+File ini **identik persis** dengan [`docs/wireframe.md` di jobsheet-04](../../jobsheet-04/docs/wireframe.md) — tidak ada perubahan rancangan UI/UX baru di jobsheet ini. Kalau kamu belum membaca rancangan itu, baca dulu [dokumentasi jobsheet-04](../../jobsheet-04/Dokumentasi/README.md) sebelum lanjut ke sini.
 
 ## 2. Apa yang Baru di Jobsheet 5?
 
-Sesuai [README.md](../README.md) jobsheet ini, ada 4 penambahan besar,
-semuanya lewat file baru `assets/js/app.js`:
+Sesuai [README.md](../README.md) jobsheet ini, ada 4 penambahan besar, semuanya lewat file baru `assets/js/app.js`:
 
-1. **Menu hamburger diganti dari CSS ke JavaScript** — sebelumnya
-   memakai "checkbox hack" murni CSS (lihat
-   [dokumentasi jobsheet-03](../../jobsheet-03/Dokumentasi/03-css-hamburger-checkbox-hack.md)),
-   sekarang memakai tombol asli + `classList.toggle()`.
-2. **Validasi form sisi klien (client-side)** — form Tambah Buku dan
-   Tambah Anggota sekarang menolak data yang tidak valid **sebelum**
-   ter-submit, dengan pesan error yang muncul langsung di halaman.
-3. **Filter/pencarian tabel real-time** — mengetik di kolom cari
-   langsung menyaring baris tabel tanpa reload halaman.
-4. **Tombol Hapus yang benar-benar berfungsi** (di sisi tampilan) —
-   menampilkan konfirmasi lalu menghapus barisnya dari layar.
+1. **Menu hamburger diganti dari CSS ke JavaScript** — sebelumnya memakai "checkbox hack" murni CSS (lihat [dokumentasi jobsheet-03](../../jobsheet-03/Dokumentasi/03-css-hamburger-checkbox-hack.md)), sekarang memakai tombol asli + `classList.toggle()`.
+2. **Validasi form sisi klien (client-side)** — form Tambah Buku dan Tambah Anggota sekarang menolak data yang tidak valid **sebelum** ter-submit, dengan pesan error yang muncul langsung di halaman.
+3. **Filter/pencarian tabel real-time** — mengetik di kolom cari langsung menyaring baris tabel tanpa reload halaman.
+4. **Tombol Hapus yang benar-benar berfungsi** (di sisi tampilan) — menampilkan konfirmasi lalu menghapus barisnya dari layar.
 
 ## 3. Konsep Inti yang Perlu Diingat
 
-1. **JavaScript menambah lapisan perilaku**, terpisah dari struktur
-   (HTML) dan tampilan (CSS) — dihubungkan lewat `<script src="...">`
-   yang diletakkan di akhir `<body>` ([bab 1](01-konsep-dasar-javascript-dom.md)).
-2. **DOM adalah "pohon" objek** yang bisa dibaca dan diubah lewat
-   `getElementById`/`querySelector`/`querySelectorAll`, memakai selector
-   CSS yang sama dengan yang sudah kamu kuasai sejak jobsheet-02
-   ([bab 1 §1.5](01-konsep-dasar-javascript-dom.md#15-memilih-elemen-dari-dom)).
-3. **Event listener adalah pola inti interaktivitas**: pilih elemen →
-   `.addEventListener(event, fungsi)` → tulis reaksinya. Tiga event
-   utama di jobsheet ini: `click`, `keyup`, `submit`
-   ([bab 1 §1.6](01-konsep-dasar-javascript-dom.md#16-apa-itu-event-dan-event-listener)).
-4. **`classList.toggle()`/`.contains()`** adalah cara modern mengatur
-   status tampilan lewat class CSS, menggantikan trik CSS murni seperti
-   checkbox hack ketika JavaScript sudah tersedia
-   ([bab 4 §4.6](04-js-hamburger-menu.md#46-bandingkan-dengan-checkbox-hack-jobsheet-03)).
-5. **Guard clause** (`if (!elemen) return;`) penting supaya satu file
-   JavaScript yang sama aman dipakai di banyak halaman berbeda, tanpa
-   error di halaman yang tidak punya elemen tertentu
-   ([bab 1 §1.7](01-konsep-dasar-javascript-dom.md#17-struktur-umum-kode-di-appjs)).
-6. **Validasi client-side bisa dilewati** dan bukan pengganti validasi
-   server-side — ini lapisan kenyamanan pengguna, bukan lapisan keamanan
-   ([bab 7 §7.8](07-js-validasi-form.md#78-kenapa-validasi-html-required-min-max-masih-perlu-diduplikasi-di-js)).
+1. **JavaScript menambah lapisan perilaku**, terpisah dari struktur (HTML) dan tampilan (CSS) — dihubungkan lewat `<script src="...">` yang diletakkan di akhir `<body>` ([bab 1](01-konsep-dasar-javascript-dom.md)).
+2. **DOM adalah "pohon" objek** yang bisa dibaca dan diubah lewat `getElementById`/`querySelector`/`querySelectorAll`, memakai selector CSS yang sama dengan yang sudah kamu kuasai sejak jobsheet-02 ([bab 1 §1.5](01-konsep-dasar-javascript-dom.md#15-memilih-elemen-dari-dom)).
+3. **Event listener adalah pola inti interaktivitas**: pilih elemen → `.addEventListener(event, fungsi)` → tulis reaksinya. Tiga event utama di jobsheet ini: `click`, `keyup`, `submit` ([bab 1 §1.6](01-konsep-dasar-javascript-dom.md#16-apa-itu-event-dan-event-listener)).
+4. **`classList.toggle()`/`.contains()`** adalah cara modern mengatur status tampilan lewat class CSS, menggantikan trik CSS murni seperti checkbox hack ketika JavaScript sudah tersedia ([bab 4 §4.6](04-js-hamburger-menu.md#46-bandingkan-dengan-checkbox-hack-jobsheet-03)).
+5. **Guard clause** (`if (!elemen) return;`) penting supaya satu file JavaScript yang sama aman dipakai di banyak halaman berbeda, tanpa error di halaman yang tidak punya elemen tertentu ([bab 1 §1.7](01-konsep-dasar-javascript-dom.md#17-struktur-umum-kode-di-appjs)).
+6. **Validasi client-side bisa dilewati** dan bukan pengganti validasi server-side — ini lapisan kenyamanan pengguna, bukan lapisan keamanan ([bab 7 §7.8](07-js-validasi-form.md#78-kenapa-validasi-html-required-min-max-masih-perlu-diduplikasi-di-js)).
 
 ## 4. Ide Latihan Tambahan (Opsional)
 1. **Tambah validasi field baru** — misalnya field ISBN di form Tambah Buku (yang saat ini tidak wajib diisi, ingat dari 
