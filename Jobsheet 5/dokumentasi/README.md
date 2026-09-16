@@ -107,7 +107,8 @@ else if (input.name === "isbn" && input.value !== "" && !/^[0-9-]+$/.test(input.
     syncNavState();
 }
 ```
-    Perubahan untuk file Style.css
+
+Perubahan untuk file Style.css
 ```css
 /* Menambahkan ovverride display none/block dengan grid yang bisa dianimasikan*/
 @media (max-width: 480px) {
@@ -140,6 +141,85 @@ else if (input.name === "isbn" && input.value !== "" && !/^[0-9-]+$/.test(input.
 
 
 3. **Perluas `initTableFilter`** supaya pencarian bisa dibatasi ke satu kolom saja (misalnya hanya kolom "Judul"), bukan mencari di seluruh teks baris — petunjuk: gunakan `row.querySelector("td")` seperti pola yang sudah dipakai di [bab 5 §5.4], alih-alih `row.textContent`.
+
+    Terdapat cukup banyak perubahan di latihan 3 ini, yaitu perubahan list.html di anggota, list.html di buku, Style.css, dan app.js
+    Perubahan app.js
+```js
+function initTableFilter() {
+    const input = document.getElementById("search-input");
+    const table = document.querySelector(".table-responsive table");
+    const column = document.getElementById("search-column");
+    if (!input || !table || !column) return;
+
+    function filterRows() {
+        const keyword = input.value.toLowerCase();
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(function (row) {
+            const cells = Array.from(row.querySelectorAll("td"));
+            const teksKolom = column.value === "all"
+                ? cells.slice(0, -1).map(function (cell) { return cell.textContent; }).join(" ")
+                : cells[Number(column.value)]?.textContent || "";
+            const teks = teksKolom.toLowerCase();
+            row.style.display = teks.includes(keyword) ? "" : "none";
+        });
+    }
+
+    input.addEventListener("keyup", filterRows);
+    input.addEventListener("input", filterRows);
+    // Latihan 3 untuk kolom langsung menerapkan kata kunci
+    column.addEventListener("change", filterRows);
+}
+```
+
+perubahan Style.css menambah dropdown menu pencarian
+```css
+.search-box label[for="search-column"] {
+    margin-top: 0.75rem;
+}
+
+.search-box select {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+    background-color: #fff;
+}
+```
+
+Perubahan list.html di folder buku
+```html
+<div class="search-box">
+                <label for="search-input">Cari Buku</label>
+                <input type="text" id="search-input" placeholder="Ketik kata kunci sesuai kolom pilihan...">
+                <!-- Latihan 3 Pencarian yang dibatasi menurut dropdown kolom data -->
+                <label for="search-column">Kolom pencarian</label>
+                <select id="search-column">
+                    <option value="all">Semua Kolom Data</option>
+                    <option value="0" selected>Judul</option>
+                    <option value="1">Pengarang</option>
+                    <option value="2">Tahun</option>
+                    <option value="3">Stok</option>
+                </select>
+            </div>
+```
+
+Perubahan list.html di folder anggota
+```html
+<div class="search-box">
+                    <label for="search-input">Cari Anggota</label>
+                    <input type="text" id="search-input" placeholder="Ketik kata kunci sesuai kolom pilihan...">
+                    <!-- Latihan 3 Pencarian yang dibatasi dropdown kolom data. -->
+                    <label for="search-column">Kolom pencarian</label>
+                    <select id="search-column">
+                        <option value="all">Semua Kolom Data</option>
+                        <option value="0">No. Anggota</option>
+                        <option value="1" selected>Nama</option>
+                        <option value="2">Alamat</option>
+                        <option value="3">No. HP</option>
+                    </select>
+                </div>
+```
 
 4. **Tambah counter jumlah baris tersisa** setelah difilter atau dihapus — tampilkan misalnya "Menampilkan 3 dari 5 buku" di atas tabel, diperbarui setiap kali `initTableFilter` atau `initHapusConfirm` berjalan.
 

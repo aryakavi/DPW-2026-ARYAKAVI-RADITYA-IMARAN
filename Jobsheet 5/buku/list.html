@@ -26,7 +26,16 @@
             <h2>Daftar Buku</h2>
             <div class="search-box">
                 <label for="search-input">Cari Buku</label>
-                <input type="text" id="search-input" placeholder="Ketik judul, pengarang, tahun, atau stok...">
+                <input type="text" id="search-input" placeholder="Ketik kata kunci sesuai kolom pilihan...">
+                <!-- Latihan 3 Pencarian yang dibatasi menurut dropdown kolom data -->
+                <label for="search-column">Kolom pencarian</label>
+                <select id="search-column">
+                    <option value="all">Semua Kolom Data</option>
+                    <option value="0" selected>Judul</option>
+                    <option value="1">Pengarang</option>
+                    <option value="2">Tahun</option>
+                    <option value="3">Stok</option>
+                </select>
             </div>
             <div class="table-responsive">
                 <table>

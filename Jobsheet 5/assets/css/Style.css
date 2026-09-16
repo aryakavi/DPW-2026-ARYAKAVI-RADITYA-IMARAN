@@ -247,6 +247,20 @@ pre {
     border-radius: 4px;
 }
 
+/* latihan 3 Dropdown pemilihan */
+.search-box label[for="search-column"] {
+    margin-top: 0.75rem;
+}
+
+.search-box select {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */

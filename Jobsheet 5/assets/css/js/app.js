@@ -35,22 +35,30 @@ function initHapusConfirm() {
     });
 }
 
+// Latihan 3 Filter satu kolom pilih atau semua sel data
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
-    if (!input || !table) return;
+    const column = document.getElementById("search-column");
+    if (!input || !table || !column) return;
 
     function filterRows() {
         const keyword = input.value.toLowerCase();
         const rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
-            const teks = row.textContent.toLowerCase();
+            const cells = Array.from(row.querySelectorAll("td"));
+            const teksKolom = column.value === "all"
+                ? cells.slice(0, -1).map(function (cell) { return cell.textContent; }).join(" ")
+                : cells[Number(column.value)]?.textContent || "";
+            const teks = teksKolom.toLowerCase();
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
     }
 
     input.addEventListener("keyup", filterRows);
     input.addEventListener("input", filterRows);
+    // Latihan 3 untuk kolom langsung menerapkan kata kunci
+    column.addEventListener("change", filterRows);
 }
 
 function tampilkanError(input, pesan) {
