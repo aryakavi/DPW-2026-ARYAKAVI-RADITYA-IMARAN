@@ -223,4 +223,51 @@ Perubahan list.html di folder anggota
 
 4. **Tambah counter jumlah baris tersisa** setelah difilter atau dihapus — tampilkan misalnya "Menampilkan 3 dari 5 buku" di atas tabel, diperbarui setiap kali `initTableFilter` atau `initHapusConfirm` berjalan.
 
+    Banyak file yang dirubah untuk menambah counter jumlah baris tersisa, yaitu kedia file list.html didalam folder buku dan anggota, app.js, serta Style.css
+    Penambahan app.js
+```js
+// LAtihan 4 menyimpan jumlah awal
+function initTableCounter() {
+    const counter = document.getElementById("table-counter");
+    const table = document.querySelector(".table-responsive table");
+    if (!counter || !table) return;
+
+    counter.dataset.totalAwal = String(table.querySelectorAll("tbody tr").length);
+    updateTableCounter();
+}
+
+// Latihan 4 Hanya baris yang terlihat dihitung
+function updateTableCounter() {
+    const counter = document.getElementById("table-counter");
+    const table = document.querySelector(".table-responsive table");
+    if (!counter || !table) return;
+
+    const rows = Array.from(table.querySelectorAll("tbody tr"));
+    const terlihat = rows.filter(function (row) {
+        return getComputedStyle(row).display !== "none";
+    }).length;
+    const pesan = "Menampilkan " + terlihat + " dari " + counter.dataset.totalAwal + " " + counter.dataset.label;
+    if (counter.textContent !== pesan) counter.textContent = pesan;
+}
+```
+
+Penambahan Stle.css
+```css
+/* TAMBAH LATIHAN-04: ringkasan hasil filter dan hapus di atas tabel. */
+.table-counter {
+    margin-bottom: 0.75rem;
+    color: #55677a;
+    font-size: 0.9rem;
+}
+```
+
+Penambahan list.html 
+```html
+<!-- Untuk folder buku -->
+<p id="table-counter" class="table-counter" role="status" aria-live="polite" data-label="buku">Menampilkan 5 dari 5 buku</p>
+
+<!-- Untuk folder anggota -->
+<p id="table-counter" class="table-counter" role="status" aria-live="polite" data-label="anggota">Menampilkan 2 dari 2 anggota</p>
+```
+
 5. **Refactor validasi** — coba ubah `initValidasiForm` supaya nama field yang wajib divalidasi diambil dari sebuah array/daftar, alih-alih menulis blok `if` terpisah untuk tiap field satu-satu (petunjuk: pikirkan pola perulangan `forEach` yang sudah dipakai di [bab 5](05-js-konfirmasi-hapus.md) dan [bab 6](06-js-filter-tabel.md)).

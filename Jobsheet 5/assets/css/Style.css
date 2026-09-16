@@ -261,6 +261,12 @@ pre {
     background-color: #fff;
 }
 
+/* latihan 4 menambahkan fungsi table counter untuk menghitung */
+.table-counter {
+    margin-bottom: 0.75rem;
+    color: #55677a;
+    font-size: 0.9rem;
+}
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */

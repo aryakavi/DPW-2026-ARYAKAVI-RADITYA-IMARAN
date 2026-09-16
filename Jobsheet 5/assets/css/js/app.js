@@ -61,6 +61,30 @@ function initTableFilter() {
     column.addEventListener("change", filterRows);
 }
 
+// LAtihan 4 menyimpan jumlah awal
+function initTableCounter() {
+    const counter = document.getElementById("table-counter");
+    const table = document.querySelector(".table-responsive table");
+    if (!counter || !table) return;
+
+    counter.dataset.totalAwal = String(table.querySelectorAll("tbody tr").length);
+    updateTableCounter();
+}
+
+// Latihan 4 Hanya baris yang terlihat dihitung
+function updateTableCounter() {
+    const counter = document.getElementById("table-counter");
+    const table = document.querySelector(".table-responsive table");
+    if (!counter || !table) return;
+
+    const rows = Array.from(table.querySelectorAll("tbody tr"));
+    const terlihat = rows.filter(function (row) {
+        return getComputedStyle(row).display !== "none";
+    }).length;
+    const pesan = "Menampilkan " + terlihat + " dari " + counter.dataset.totalAwal + " " + counter.dataset.label;
+    if (counter.textContent !== pesan) counter.textContent = pesan;
+}
+
 function tampilkanError(input, pesan) {
     hapusError(input);
     const span = document.createElement("span");
