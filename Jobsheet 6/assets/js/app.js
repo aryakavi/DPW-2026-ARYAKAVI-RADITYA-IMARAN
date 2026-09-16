@@ -30,6 +30,7 @@ function initHapusConfirm() {
             const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
             if (yakin && row) {
                 row.remove();
+                updateTableCounter();
             }
         });
     });
@@ -44,7 +45,7 @@ function initTableFilter() {
 
     function filterRows() {
         const keyword = input.value.toLowerCase();
-        const rows = table.querySelectorAll("tbody tr");
+        const rows = table.querySelectorAll("tbody tr:not([data-status])");
         rows.forEach(function (row) {
             const cells = Array.from(row.querySelectorAll("td"));
             const teksKolom = column.value === "all"
@@ -53,21 +54,26 @@ function initTableFilter() {
             const teks = teksKolom.toLowerCase();
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
+        updateTableCounter();
     }
 
     input.addEventListener("keyup", filterRows);
     input.addEventListener("input", filterRows);
     // Latihan 3 untuk kolom langsung menerapkan kata kunci
     column.addEventListener("change", filterRows);
+    table.addEventListener("table:updated", function () {
+        initTableCounter();
+        filterRows();
+    });
 }
 
-// LAtihan 4 menyimpan jumlah awal
+// Latihan 4 menyimpan jumlah awal
 function initTableCounter() {
     const counter = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
     if (!counter || !table) return;
 
-    counter.dataset.totalAwal = String(table.querySelectorAll("tbody tr").length);
+    counter.dataset.totalAwal = String(table.querySelectorAll("tbody tr:not([data-status])").length);
     updateTableCounter();
 }
 
