@@ -213,43 +213,40 @@ pre {
     white-space: pre;
 }
     
-    /* ===== Hamburger Menu (checkbox hack) ===== */
-.nav-toggle {
-    display: none;
-}
-
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
     color: #fff;
+    background: none;
+    border: none;
     cursor: pointer;
 }
 
-@media (max-width: 480px){
-header {
-    position: relative;
-}
-
-.nav-toggle-label {
+.error {
     display: block;
+    color: #d9534f;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
 }
 
-header nav {
-    display: none;
+.search-box {
+    margin-bottom: 1rem;
+}
+
+.search-box label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.search-box input {
     width: 100%;
-    order: 3;
-    margin-top: 1rem;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
 }
 
-.nav-toggle:checked ~ nav {
-    display: block;
-}
-
-header nav ul {
-    flex-direction: column;
-    gap: 0.75rem;
-}
-}
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */
@@ -276,7 +273,7 @@ header nav ul {
         margin-top: 1rem;
     }
 
-    .nav-toggle:checked ~ nav {
+    header nav.nav-open {
         display: block;
     }
 
@@ -298,6 +295,6 @@ header nav ul {
 /* Monitor Sangat Lebar */
 @media (min-width: 1400px) {
     main {
-        max-width: 1250px; /* Nilai ini bisa disesuaikan dengan kebutuhan desain */
+        max-width: 1250px; 
     }
 }
