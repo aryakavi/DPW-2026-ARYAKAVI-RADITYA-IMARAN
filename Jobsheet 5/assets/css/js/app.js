@@ -68,70 +68,36 @@ function initValidasiForm() {
 
     form.addEventListener("submit", function (e) {
         let valid = true;
+        let firstInvalid = null;
 
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
+        form.querySelectorAll("input, select").forEach(function (input) {
+            hapusError(input);
+            let pesan = "";
 
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Field ini wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
-        const isbn = form.querySelector("[name='isbn']");
-        if (isbn && isbn.value.trim() === "") {
-            tampilkanError(isbn, "Field ini wajib diisi.");
-            valid = false;
-        } else if (isbn) {
-            hapusError(isbn);
-        }
-
-        const noAnggota = form.querySelector("[name='no_anggota']");
-        if (noAnggota && noAnggota.value.trim() === "") {
-            tampilkanError(noAnggota, "Field ini wajib diisi.");
-            valid = false;
-        } else if (noAnggota) {
-            hapusError(noAnggota);
-        }
-
-        const tahun = form.querySelector("[name='tahun']");
-        if (tahun) {
-            const nilai = Number(tahun.value);
-            if (tahun.value.trim() === "") {
-                tampilkanError(tahun, "Field ini wajib diisi.");
-                valid = false;
-            } else if (!Number.isInteger(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus berupa bilangan bulat di antara 1900-2026.");
-                valid = false;
-            } else {
-                hapusError(tahun);
+            if (input.required && input.value.trim() === "") {
+                pesan = "Field ini wajib diisi.";
+            } else if (input.name === "tahun") {
+                const nilai = Number(input.value);
+                if (!Number.isInteger(nilai) || nilai < 1900 || nilai > 2026) {
+                    pesan = "Tahun harus berupa bilangan bulat di antara 1900-2026.";
+                }
+            } else if (input.name === "stok") {
+                const nilai = Number(input.value);
+                if (input.value.trim() === "" || !Number.isInteger(nilai) || nilai < 0) {
+                    pesan = "Stok harus berupa bilangan bulat minimal 0.";
+                }
             }
-        }
 
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilai = Number(stok.value);
-            if (stok.value.trim() === "") {
-                tampilkanError(stok, "Field ini wajib diisi.");
+            if (pesan) {
+                tampilkanError(input, pesan);
                 valid = false;
-            } else if (!Number.isInteger(nilai) || nilai < 0) {
-                tampilkanError(stok, "Stok harus berupa bilangan bulat minimal 0.");
-                valid = false;
-            } else {
-                hapusError(stok);
+                if (!firstInvalid) firstInvalid = input;
             }
-        }
+        });
 
         if (!valid) {
             e.preventDefault();
-            form.querySelector("[aria-invalid='true']").focus();
+            firstInvalid.focus();
         }
     });
 }
