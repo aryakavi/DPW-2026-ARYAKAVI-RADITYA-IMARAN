@@ -270,4 +270,57 @@ Penambahan list.html
 <p id="table-counter" class="table-counter" role="status" aria-live="polite" data-label="anggota">Menampilkan 2 dari 2 anggota</p>
 ```
 
-5. **Refactor validasi** — coba ubah `initValidasiForm` supaya nama field yang wajib divalidasi diambil dari sebuah array/daftar, alih-alih menulis blok `if` terpisah untuk tiap field satu-satu (petunjuk: pikirkan pola perulangan `forEach` yang sudah dipakai di [bab 5](05-js-konfirmasi-hapus.md) dan [bab 6](06-js-filter-tabel.md)).
+5. **Refactor validasi** — coba ubah `initValidasiForm` supaya nama field yang wajib divalidasi diambil dari sebuah array/daftar, alih-alih menulis blok `if` terpisah untuk tiap field satu-satu (petunjuk: pikirkan pola perulangan `forEach` yang sudah dipakai di [bab 5]
+
+    Terjadi perombakan app.js di salah satu fungsi yaitu initValidasiForm menjadi 
+```js
+// Latihan 5 blok diganti loop berdasar array nama field
+function initValidasiForm() {
+    const form = document.getElementById("form-tambah");
+    if (!form) return;
+
+    // Penambahan line Latihan 5 satu daftar untuk edua form dan mengabaikan field yang tidak ada
+    const fieldWajib = ["judul", "nama", "pengarang", "tahun", "isbn", "stok", "no_anggota"];
+    const fields = fieldWajib.map(function (nama) {
+        return form.querySelector("[name='" + nama + "']");
+    }).filter(function (input) {
+        return input !== null;
+    });
+
+    form.noValidate = true;
+
+    form.addEventListener("submit", function (e) {
+        let valid = true;
+        // Latihan 5 setiap input dalam daftar menjalani validasi yang sama
+        fields.forEach(function (input) {
+            hapusError(input);
+            let pesan = "";
+
+            if (input.value.trim() === "") {
+                pesan = "Field ini wajib diisi.";
+            } else if (input.name === "tahun") {
+                const nilai = Number(input.value);
+                if (!Number.isInteger(nilai) || nilai < 1900 || nilai > 2026) {
+                    pesan = "Tahun harus berupa bilangan bulat di antara 1900-2026.";
+                }
+            } else if (input.name === "stok") {
+                const nilai = Number(input.value);
+                if (input.value.trim() === "" || !Number.isInteger(nilai) || nilai < 0) {
+                    pesan = "Stok harus berupa bilangan bulat minimal 0.";
+                }
+            }
+
+            if (pesan) {
+                tampilkanError(input, pesan);
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+            e.preventDefault();
+            // Latihan 5 mengikuti urutan field HTML bukan array.
+            form.querySelector("[aria-invalid='true']").focus();
+        }
+    });
+}
+```
