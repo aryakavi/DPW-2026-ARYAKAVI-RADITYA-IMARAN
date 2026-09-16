@@ -38,8 +38,10 @@
                     <input type="number" id="tahun" name="tahun" min="1900" max="2026" step="1" required>
                 </p>
                 <p>
-                    <label for="isbn">ISBN</label><br>
-                    <input type="text" id="isbn" name="isbn" required>
+                    <!-- Perubahan untuk latihan 1 -->
+                    <label for="isbn">ISBN (opsional)</label><br>
+                    <input type="text" id="isbn" name="isbn" pattern="[0-9\-]+" placeholder="Contoh: 978-602-123-456-7">
+                    <small>Jika diisi, gunakan hanya angka 0–9 dan tanda hubung (-).</small>
                 </p>
                 <p>
                     <label for="stok">Stok</label><br>

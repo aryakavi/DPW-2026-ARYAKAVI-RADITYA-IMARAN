@@ -76,6 +76,9 @@ function initValidasiForm() {
 
             if (input.required && input.value.trim() === "") {
                 pesan = "Field ini wajib diisi.";
+                // Penambahan else-if baru untuk Latihan 1  
+            } else if (input.name === "isbn" && input.value !== "" && !/^[0-9-]+$/.test(input.value)) {
+                pesan = "ISBN hanya boleh berisi angka 0–9 dan tanda hubung (-).";
             } else if (input.name === "tahun") {
                 const nilai = Number(input.value);
                 if (!Number.isInteger(nilai) || nilai < 1900 || nilai > 2026) {
