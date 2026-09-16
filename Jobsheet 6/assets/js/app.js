@@ -23,16 +23,19 @@ function initNavToggle() {
 }
 
 function initHapusConfirm() {
-    document.querySelectorAll(".btn-hapus").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            const row = btn.closest("tr");
-            const nama = row?.querySelector("td")?.textContent.trim() || "data ini";
-            const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
-            if (yakin && row) {
-                row.remove();
-                updateTableCounter();
-            }
-        });
+    document.addEventListener("click", function (e) {
+        if (!(e.target instanceof Element)) return;
+        const btn = e.target.closest(".btn-hapus");
+        if (!btn) return;
+
+        const row = btn.closest("tr");
+        if (!row) return;
+        const nama = row.querySelector("td")?.textContent.trim() || "data ini";
+        const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
+        if (yakin) {
+            row.remove();
+            updateTableCounter();
+        }
     });
 }
 
