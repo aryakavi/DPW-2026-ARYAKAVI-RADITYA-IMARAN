@@ -3,10 +3,23 @@ function initNavToggle() {
     const nav = document.querySelector("header nav");
     if (!toggleBtn || !nav) return;
 
+    // perubahan yang untuk latihan 2, memasang class transition
+    const mobile = window.matchMedia("(max-width: 480px)");
+    nav.classList.add("transition");
+
+    function syncNavState() {
+        const terlihat = !mobile.matches || nav.classList.contains("nav-open");
+        nav.inert = !terlihat;
+        toggleBtn.setAttribute("aria-expanded", String(terlihat));
+    }
+
     toggleBtn.addEventListener("click", function () {
-        const terbuka = nav.classList.toggle("nav-open");
-        toggleBtn.setAttribute("aria-expanded", String(terbuka));
+        nav.classList.toggle("nav-open");
+        syncNavState();
     });
+    
+    mobile.addEventListener("change", syncNavState);
+    syncNavState();
 }
 
 function initHapusConfirm() {

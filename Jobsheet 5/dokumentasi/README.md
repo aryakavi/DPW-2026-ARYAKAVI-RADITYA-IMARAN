@@ -85,6 +85,60 @@ else if (input.name === "isbn" && input.value !== "" && !/^[0-9-]+$/.test(input.
 
 2. **Tambah animasi sederhana** pada `initNavToggle` — misalnya tambahkan class CSS `transition` pada `header nav` di `style.css`supaya menu terbuka/tertutup dengan efek geser halus, alih-alih langsung muncul/hilang seketika.
 
+    Perubahan sudah saya lakukan didalam app.js dan Style.css
+    Perubahan untuk file app.js :
+```js
+// perubahan yang untuk latihan 2, memasang class transition
+    const mobile = window.matchMedia("(max-width: 480px)");
+    nav.classList.add("transition");
+
+    function syncNavState() {
+        const terlihat = !mobile.matches || nav.classList.contains("nav-open");
+        nav.inert = !terlihat;
+        toggleBtn.setAttribute("aria-expanded", String(terlihat));
+    }
+
+    toggleBtn.addEventListener("click", function () {
+        nav.classList.toggle("nav-open");
+        syncNavState();
+    });
+    
+    mobile.addEventListener("change", syncNavState);
+    syncNavState();
+}
+```
+    Perubahan untuk file Style.css
+```css
+/* Menambahkan ovverride display none/block dengan grid yang bisa dianimasikan*/
+@media (max-width: 480px) {
+    header nav.transition {
+        display: grid;
+        grid-template-rows: 0fr;
+        margin-top: 0;
+        opacity: 0;
+        transform: translateY(-0.5rem);
+        visibility: hidden;
+        transition: grid-template-rows 250ms ease, margin-top 250ms ease,
+            opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
+    }
+
+    header nav.transition > ul {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    header nav.transition.nav-open {
+        grid-template-rows: 1fr;
+        margin-top: 1rem;
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+        transition-delay: 0s;
+    }
+}
+```
+
+
 3. **Perluas `initTableFilter`** supaya pencarian bisa dibatasi ke satu kolom saja (misalnya hanya kolom "Judul"), bukan mencari di seluruh teks baris — petunjuk: gunakan `row.querySelector("td")` seperti pola yang sudah dipakai di [bab 5 §5.4], alih-alih `row.textContent`.
 
 4. **Tambah counter jumlah baris tersisa** setelah difilter atau dihapus — tampilkan misalnya "Menampilkan 3 dari 5 buku" di atas tabel, diperbarui setiap kali `initTableFilter` atau `initHapusConfirm` berjalan.
