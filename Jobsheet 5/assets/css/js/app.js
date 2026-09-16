@@ -9,6 +9,20 @@ function initNavToggle() {
     });
 }
 
+function initHapusConfirm() {
+    document.querySelectorAll(".btn-hapus").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            const row = btn.closest("tr");
+            const nama = row?.querySelector("td")?.textContent.trim() || "data ini";
+            const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
+            if (yakin && row) {
+                row.remove();
+            }
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
    initNavToggle();
+   initHapusConfirm();
 });
