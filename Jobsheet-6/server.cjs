@@ -1,4 +1,3 @@
-// TAMBAH JS06-07: server HTTP statis untuk latihan fetch; tidak memerlukan npm install.
 const http = require("node:http");
 const fs = require("node:fs/promises");
 const path = require("node:path");
@@ -36,7 +35,6 @@ const server = http.createServer(async function (req, res) {
         if (pathname.endsWith("/")) pathname += "index.html";
         const filePath = path.resolve(root, "." + pathname);
         const relative = path.relative(root, filePath);
-        // JS06-07: sajikan hanya file di dalam folder bab yang sedang dijalankan.
         if (relative === ".." || relative.startsWith(".." + path.sep) || path.isAbsolute(relative)) {
             res.writeHead(403);
             res.end("Akses di luar folder bab ditolak.");
