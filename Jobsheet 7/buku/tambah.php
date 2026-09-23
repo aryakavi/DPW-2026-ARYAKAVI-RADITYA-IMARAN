@@ -1,10 +1,13 @@
+<?php
+$page_title = "Tambah Buku";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>SIMPUS-Mini | Tambah Buku</title>
-    <link rel="stylesheet" href="../assets/css/Style.css">
+    <title>SIMPUS-Mini | <?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <header>
@@ -34,13 +37,11 @@
                 </p>
                 <p>
                     <label for="tahun">Tahun Terbit</label><br>
-                    <input type="number" id="tahun" name="tahun" min="1900" max="2026" step="1" required>
+                    <input type="number" id="tahun" name="tahun" min="1900" max="2026" required>
                 </p>
                 <p>
-                    <!-- Perubahan untuk latihan 1 -->
-                    <label for="isbn">ISBN (opsional)</label><br>
-                    <input type="text" id="isbn" name="isbn" pattern="[0-9\-]+" placeholder="Contoh: 978-602-123-456-7">
-                    <small>Jika diisi, gunakan hanya angka 0–9 dan tanda hubung (-).</small>
+                    <label for="isbn">ISBN</label><br>
+                    <input type="text" id="isbn" name="isbn">
                 </p>
                 <p>
                     <label for="stok">Stok</label><br>
@@ -62,7 +63,7 @@
     </main>
     
     <footer>
-        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 1</p>
+        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 7</p>
     </footer>
     <script src="../assets/js/app.js"></script>
 </body>

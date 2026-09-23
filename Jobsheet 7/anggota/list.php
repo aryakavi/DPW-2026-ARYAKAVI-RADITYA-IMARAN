@@ -73,6 +73,5 @@ $page_title = "Daftar Anggota";
             <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 7</p>
         </footer>
         <script src="../assets/js/app.js"></script>
-        <script src="../assets/js/anggota.js"></script>
     </body>
 </html>
