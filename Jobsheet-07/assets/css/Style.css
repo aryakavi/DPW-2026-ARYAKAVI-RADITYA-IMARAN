@@ -13,7 +13,7 @@ body {
 }
 
 a {
-    color: #2E8B57;
+    color: #1d5b8a;
     text-decoration: none;
 }
 
@@ -23,7 +23,7 @@ a:hover {
 
 /* ===== Header & Navbar (Flexbox) ===== */
 header {
-    background-color: #2E8B57;
+    background-color: #1d5b8a;
     color: #fff;
     padding: 1rem 1.5rem;
     display: flex;
@@ -40,7 +40,6 @@ header nav ul {
     list-style: none;
     display: flex;
     gap: 1.25rem;
-    flex-wrap: wrap;
 }
 
 header nav a {
@@ -65,15 +64,11 @@ section {
 
 section h2 {
     margin-bottom: 1rem;
-    color: #2E8B57;
-}
-
-main section:nth-of-type(2) h2 {
-    grid-column: 1 / -1;
+    color: #1d5b8a;
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
-main section:nth-of-type(2){
+main section:nth-of-type(2) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
@@ -95,7 +90,7 @@ main section:nth-of-type(2) article h3 {
 main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #2E8B57;
+    color: #1d5b8a;
 }
 
 /* ===== Tabel ===== */
@@ -111,7 +106,7 @@ th, td {
 }
 
 thead {
-    background-color: #2E8B57;
+    background-color: #1d5b8a;
     color: #fff;
 }
 
@@ -138,21 +133,6 @@ td button:first-of-type {
 }
 
 td button:last-of-type {
-    background-color: #d9534f;
-    color: #fff;
-}
-
-td button.btn-edit {
-    background-color: #f0ad4e;
-    color: #fff;
-}
-
-td button.btn-detail {
-    background-color: #5bc0de; 
-    color: #fff;
-}
-
-td button.btn-hapus {
     background-color: #d9534f;
     color: #fff;
 }
@@ -206,13 +186,7 @@ footer {
     overflow-x: auto;
 }
 
-.code-responsive, 
-pre {
-    overflow-x: auto;
-    max-width: 100%;
-    white-space: pre;
-}
-    
+/* ===== Hamburger Menu (JS-driven) ===== */
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
@@ -222,6 +196,25 @@ pre {
     cursor: pointer;
 }
 
+/* ===== Flash Message ===== */
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ===== Pesan Error Validasi ===== */
 .error {
     display: block;
     color: #d9534f;
@@ -229,14 +222,9 @@ pre {
     margin-top: 0.25rem;
 }
 
+/* ===== Kolom Pencarian ===== */
 .search-box {
     margin-bottom: 1rem;
-}
-
-.search-box label {
-    display: block;
-    margin-bottom: 0.35rem;
-    font-weight: 600;
 }
 
 .search-box input {
@@ -247,47 +235,10 @@ pre {
     border-radius: 4px;
 }
 
-/* latihan 3 Dropdown pemilihan */
-.search-box label[for="search-column"] {
-    margin-top: 0.75rem;
-}
-
-.search-box select {
-    width: 100%;
-    max-width: 320px;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
-    background-color: #fff;
-}
-
-/* latihan 4 menambahkan fungsi table counter untuk menghitung */
-.table-counter {
-    margin-bottom: 0.75rem;
-    color: #55677a;
-    font-size: 0.9rem;
-}
-
-.btn-reload {
-    background: #2E8B57;
-    color: #fff;
-    padding: 0.55rem 1rem;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 0.75rem;
-    cursor: pointer;
-    font: inherit;
-}
-
-.btn-reload:disabled {
-    opacity: 0.6;
-    cursor: wait;
-}
-
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -326,40 +277,5 @@ pre {
     form input,
     form select {
         max-width: 100%;
-    }
-}
-
-/* Monitor Sangat Lebar */
-@media (min-width: 1400px) {
-    main {
-        max-width: 1250px; 
-    }
-}
-
-/* Menimpa display none/block dengan grid yang bisa dianimasikan*/
-@media (max-width: 480px) {
-    header nav.transition {
-        display: grid;
-        grid-template-rows: 0fr;
-        margin-top: 0;
-        opacity: 0;
-        transform: translateY(-0.5rem);
-        visibility: hidden;
-        transition: grid-template-rows 250ms ease, margin-top 250ms ease,
-            opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
-    }
-
-    header nav.transition > ul {
-        min-height: 0;
-        overflow: hidden;
-    }
-
-    header nav.transition.nav-open {
-        grid-template-rows: 1fr;
-        margin-top: 1rem;
-        opacity: 1;
-        transform: translateY(0);
-        visibility: visible;
-        transition-delay: 0s;
     }
 }
