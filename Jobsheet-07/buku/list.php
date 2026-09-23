@@ -1,9 +1,16 @@
 <?php
 $page_title = "Daftar Buku";
 include __DIR__ . '/../includes/header.php';
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
+$daftarBuku = $_SESSION['buku'] ?? [];
 ?>
         <section>
             <h2>Daftar Buku</h2>
+
+            <?php if ($flash): ?>
+                <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['pesan']; ?></p>
+            <?php endif; ?>
 
             <div class="search-box">
                 <label for="search-input">Cari Judul Buku</label>
@@ -22,56 +29,24 @@ include __DIR__ . '/../includes/header.php';
                     </tr>
                 </thead>
                 <tbody>
+                    <?php if (empty($daftarBuku)): ?>
                     <tr>
-                        <td>Laskar Pelangi</td>
-                        <td>Andrea Hirata</td>
-                        <td>2005</td>
-                        <td>4</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button" class="btn-hapus">Hapus</button>
-                        </td>
+                        <td colspan="5">Belum ada data buku. Silakan tambah lewat menu "Tambah Buku".</td>
                     </tr>
-                    <tr>
-                        <td>Bumi Manusia</td>
-                        <td>Pramoedya Ananta Toer</td>
-                        <td>1980</td>
-                        <td>2</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button" class="btn-hapus">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Negeri 5 Menara</td>
-                        <td>Ahmad Fuadi</td>
-                        <td>2009</td>
-                        <td>0</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button" class="btn-hapus">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Filosofi Teras</td>
-                        <td>Henry Manampiring</td>
-                        <td>2018</td>
-                        <td>5</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button" class="btn-hapus">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ronggeng Dukuh Paruk</td>
-                        <td>Ahmad Tohari</td>
-                        <td>1982</td>
-                        <td>1</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button" class="btn-hapus">Hapus</button>
-                        </td>
-                    </tr>
+                    <?php else: ?>
+                        <?php foreach ($daftarBuku as $buku): ?>
+                        <tr>
+                            <td><?php echo $buku['judul']; ?></td>
+                            <td><?php echo $buku['pengarang']; ?></td>
+                            <td><?php echo $buku['tahun']; ?></td>
+                            <td><?php echo $buku['stok']; ?></td>
+                            <td>
+                                <button type="button">Edit</button>
+                                <button type="button" class="btn-hapus">Hapus</button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
             </div>
