@@ -6,8 +6,8 @@ $page_title = "Tambah Anggota";
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
-        <title>SIMPLUS-Mini | Tambah Anggota</title>
-        <link rel="stylesheet" href="../assets/css/Style.css">
+        <title>SIMPUS-Mini | <?php echo $page_title; ?></title>
+        <link rel="stylesheet" href="../assets/css/style.css">
     </head>
     <body>
         <header>

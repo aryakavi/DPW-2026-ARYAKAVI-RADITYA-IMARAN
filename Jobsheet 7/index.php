@@ -1,10 +1,13 @@
+<?php
+$page_title = "Beranda";
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>SIMPUS-Mini | Beranda</title>
-    <link rel="stylesheet" href="assets/css/Style.css">
+    <title>SIMPUS-Mini | <?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header>
@@ -12,10 +15,11 @@
         <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
         <nav id="main-nav">
             <ul>
-                <li><a href="index.html">Beranda</a></li>
-                <li><a href="buku/list.html">Daftar Buku</a></li>
-                <li><a href="buku/tambah.html">Tambah Buku</a></li>
-                <li><a href="anggota/list.html">Daftar Anggota</a></li>
+                <li><a href="index.php">Beranda</a></li>
+                <li><a href="buku/list.php">Daftar Buku</a></li>
+                <li><a href="buku/tambah.php">Tambah Buku</a></li>
+                <li><a href="anggota/list.php">Daftar Anggota</a></li>
+                <li><a href="anggota/tambah.php">Tambah Anggota</a></li>
             </ul>
         </nav>
     </header>
@@ -38,17 +42,13 @@
             </article>
             <article>
                 <h3>Sedang Dipinjam</h3>
-                <p>3</p>
+                <p>0</p>
             </article>
-            <article>
-                    <h3>Buku Terlambat</h3>
-                    <p>5</p>
-                </article>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 1</p>
+        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 7</p>
     </footer>
     <script src="assets/js/app.js"></script>
 </body>
