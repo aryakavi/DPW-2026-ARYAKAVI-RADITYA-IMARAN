@@ -1,32 +1,11 @@
 <?php
 $page_title = "Daftar Anggota";
+include __DIR__ . '/../includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="id">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
-        <title>SIMPUS-Mini | <?php echo $page_title; ?></title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    </head>
-    <body>
-        <header>
-            <h1>SIMPUS-Mini</h1>
-            <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
-            <nav id="main-nav">
-                <ul>
-                    <li><a href="../index.html">Beranda</a></li>
-                    <li><a href="../buku/list.html">Daftar Buku</a></li>
-                    <li><a href="list.html">Daftar Anggota</a></li>
-                    <li><a href="anggota.html">Tambah Anggota</a></li>
-                </ul>
-            </nav>
-        </header>
+        <section>
+            <h2>Daftar Anggota</h2>
 
-        <main>
-            <section>
-                <h2>Daftar Anggota</h2>
-                <div class="search-box">
+            <div class="search-box">
                 <label for="search-input">Cari Nama Anggota</label>
                 <input type="text" id="search-input" placeholder="Ketik nama anggota...">
             </div>
@@ -67,11 +46,4 @@ $page_title = "Daftar Anggota";
             </table>
             </div>
         </section>
-    </main>
-
-        <footer>
-            <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 7</p>
-        </footer>
-        <script src="../assets/js/app.js"></script>
-    </body>
-</html>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
