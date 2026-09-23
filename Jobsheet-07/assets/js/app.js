@@ -3,106 +3,46 @@ function initNavToggle() {
     const nav = document.querySelector("header nav");
     if (!toggleBtn || !nav) return;
 
-    // perubahan yang untuk latihan 2, memasang class transition
-    const mobile = window.matchMedia("(max-width: 480px)");
-    nav.classList.add("transition");
-
-    function syncNavState() {
-        const terlihat = !mobile.matches || nav.classList.contains("nav-open");
-        nav.inert = !terlihat;
-        toggleBtn.setAttribute("aria-expanded", String(terlihat));
-    }
-
     toggleBtn.addEventListener("click", function () {
         nav.classList.toggle("nav-open");
-        syncNavState();
     });
-    
-    mobile.addEventListener("change", syncNavState);
-    syncNavState();
 }
 
 function initHapusConfirm() {
     document.addEventListener("click", function (e) {
-        if (!(e.target instanceof Element)) return;
         const btn = e.target.closest(".btn-hapus");
         if (!btn) return;
 
         const row = btn.closest("tr");
-        if (!row) return;
-        const nama = row.querySelector("td")?.textContent.trim() || "data ini";
+        const nama = row ? row.querySelector("td")?.textContent : "data ini";
         const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
-        if (yakin) {
+        if (yakin && row) {
             row.remove();
-            updateTableCounter();
         }
     });
 }
 
-// Latihan 3 Filter satu kolom pilih atau semua sel data
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
-    const column = document.getElementById("search-column");
-    if (!input || !table || !column) return;
+    if (!input || !table) return;
 
-    function filterRows() {
+    input.addEventListener("keyup", function () {
         const keyword = input.value.toLowerCase();
-        const rows = table.querySelectorAll("tbody tr:not([data-status])");
+        const rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
-            const cells = Array.from(row.querySelectorAll("td"));
-            const teksKolom = column.value === "all"
-                ? cells.slice(0, -1).map(function (cell) { return cell.textContent; }).join(" ")
-                : cells[Number(column.value)]?.textContent || "";
-            const teks = teksKolom.toLowerCase();
+            const teks = row.textContent.toLowerCase();
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
-        updateTableCounter();
-    }
-
-    input.addEventListener("keyup", filterRows);
-    input.addEventListener("input", filterRows);
-    // Latihan 3 untuk kolom langsung menerapkan kata kunci
-    column.addEventListener("change", filterRows);
-    table.addEventListener("table:updated", function () {
-        initTableCounter();
-        filterRows();
     });
-}
-
-// Latihan 4 menyimpan jumlah awal
-function initTableCounter() {
-    const counter = document.getElementById("table-counter");
-    const table = document.querySelector(".table-responsive table");
-    if (!counter || !table) return;
-
-    counter.dataset.totalAwal = String(table.querySelectorAll("tbody tr:not([data-status])").length);
-    updateTableCounter();
-}
-
-// Latihan 4 Hanya baris yang terlihat dihitung
-function updateTableCounter() {
-    const counter = document.getElementById("table-counter");
-    const table = document.querySelector(".table-responsive table");
-    if (!counter || !table) return;
-
-    const rows = Array.from(table.querySelectorAll("tbody tr"));
-    const terlihat = rows.filter(function (row) {
-        return getComputedStyle(row).display !== "none";
-    }).length;
-    const pesan = "Menampilkan " + terlihat + " dari " + counter.dataset.totalAwal + " " + counter.dataset.label;
-    if (counter.textContent !== pesan) counter.textContent = pesan;
 }
 
 function tampilkanError(input, pesan) {
     hapusError(input);
     const span = document.createElement("span");
     span.className = "error";
-    span.id = input.id + "-error";
     span.textContent = pesan;
     input.insertAdjacentElement("afterend", span);
-    input.setAttribute("aria-invalid", "true");
-    input.setAttribute("aria-describedby", span.id);
 }
 
 function hapusError(input) {
@@ -110,73 +50,62 @@ function hapusError(input) {
     if (next && next.classList.contains("error")) {
         next.remove();
     }
-    input.removeAttribute("aria-invalid");
-    input.removeAttribute("aria-describedby");
 }
 
-// Latihan 5 blok diganti loop berdasar array nama field
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
-    // Penambahan line Latihan 5 satu daftar untuk edua form dan mengabaikan field yang tidak ada
-    const fieldWajib = ["judul", "nama", "pengarang", "tahun", "stok", "no_anggota"];
-    const fields = fieldWajib.map(function (nama) {
-        return form.querySelector("[name='" + nama + "']");
-    }).filter(function (input) {
-        return input !== null;
-    });
-
-    form.noValidate = true;
-
     form.addEventListener("submit", function (e) {
         let valid = true;
-        // Latihan 5 setiap input dalam daftar menjalani validasi yang sama
-        fields.forEach(function (input) {
-            hapusError(input);
-            let pesan = "";
 
-            if (input.value.trim() === "") {
-                pesan = "Field ini wajib diisi.";
-            } else if (input.name === "tahun") {
-                const nilai = Number(input.value);
-                if (!Number.isInteger(nilai) || nilai < 1900 || nilai > 2026) {
-                    pesan = "Tahun harus berupa bilangan bulat di antara 1900-2026.";
-                }
-            } else if (input.name === "stok") {
-                const nilai = Number(input.value);
-                if (input.value.trim() === "" || !Number.isInteger(nilai) || nilai < 0) {
-                    pesan = "Stok harus berupa bilangan bulat minimal 0.";
-                }
-            }
+        const judul = form.querySelector("[name='judul'], [name='nama']");
+        if (judul && judul.value.trim() === "") {
+            tampilkanError(judul, "Field ini wajib diisi.");
+            valid = false;
+        } else if (judul) {
+            hapusError(judul);
+        }
 
-            if (pesan) {
-                tampilkanError(input, pesan);
+        const pengarang = form.querySelector("[name='pengarang']");
+        if (pengarang && pengarang.value.trim() === "") {
+            tampilkanError(pengarang, "Pengarang wajib diisi.");
+            valid = false;
+        } else if (pengarang) {
+            hapusError(pengarang);
+        }
+
+        const tahun = form.querySelector("[name='tahun']");
+        if (tahun) {
+            const nilai = parseInt(tahun.value, 10);
+            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
+                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
                 valid = false;
+            } else {
+                hapusError(tahun);
             }
-        });
+        }
 
-        const isbn = form.querySelector("[name='isbn']");
-        if (isbn) {
-            hapusError(isbn);
-            if (isbn.value !== "" && !/^[0-9-]+$/.test(isbn.value)) {
-                tampilkanError(isbn, "ISBN hanya boleh berisi angka 0–9 dan tanda hubung (-).");
+        const stok = form.querySelector("[name='stok']");
+        if (stok) {
+            const nilai = parseInt(stok.value, 10);
+            if (isNaN(nilai) || nilai < 0) {
+                tampilkanError(stok, "Stok tidak boleh negatif.");
                 valid = false;
+            } else {
+                hapusError(stok);
             }
         }
 
         if (!valid) {
             e.preventDefault();
-            // Latihan 5 mengikuti urutan field HTML bukan array.
-            form.querySelector("[aria-invalid='true']").focus();
         }
     });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-   initTableCounter();
-   initNavToggle();
-   initHapusConfirm();
-   initTableFilter();
-   initValidasiForm();
+    initNavToggle();
+    initHapusConfirm();
+    initTableFilter();
+    initValidasiForm();
 });
