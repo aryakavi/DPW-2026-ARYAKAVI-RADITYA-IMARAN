@@ -1,6 +1,9 @@
 <?php
 $page_title = "Beranda";
 include __DIR__ . '/includes/header.php';
+
+$totalBuku = count($_SESSION['buku'] ?? []);
+$totalAnggota = count($_SESSION['anggota'] ?? []);
 ?>
         <section>
             <h2>Selamat Datang di Sistem Perpustakaan Mini</h2>
@@ -11,11 +14,11 @@ include __DIR__ . '/includes/header.php';
             <h2>Ringkasan</h2>
             <article>
                 <h3>Total Buku</h3>
-                <p>12</p>
+                <p><?php echo $totalBuku; ?></p>
             </article>
             <article>
                 <h3>Total Anggota</h3>
-                <p>8</p>
+                <p><?php echo $totalAnggota; ?></p>
             </article>
             <article>
                 <h3>Sedang Dipinjam</h3>
