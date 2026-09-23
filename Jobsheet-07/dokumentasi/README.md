@@ -63,8 +63,32 @@ Sesuai [README.md](../README.md) jobsheet ini:
    sudah pindah ke server.
 
 
-## 5. 7.4 Ide Latihan Tambahan (Opsional)
+## 5. Ide Latihan Tambahan (Opsional)
 1. Tambah validasi ISBN di buku/proses_tambah.php — misalnya memastikan ISBN yang diisi (kalau tidak kosong) hanya berisi angka dan tanda hubung, memakai fungsi PHP preg_match().
 2. Tambah flash message di anggota/proses_tambah.php untuk kasus yang belum ditangani — bandingkan dengan versi buku/proses_tambah.php yang sudah divalidasi lebih lengkap (rentang tahun, stok non-negatif) — field apa lagi di form anggota yang mungkin perlu aturan validasi tambahan?
 3. Buat halaman debug_session.php sementara (untuk latihan, hapus setelah selesai) yang menampilkan isi $_SESSION mentah lewat <pre><?php print_r($_SESSION); ?></pre> — cara yang berguna untuk "mengintip" langsung apa yang sebenarnya tersimpan di server saat belajar.
 4. Tambah tombol "Reset Data" yang memanggil session_destroy() untuk mengosongkan seluruh $_SESSION secara manual, tanpa perlu menutup browser — cari tahu sendiri lewat dokumentasi PHP resmi bagaimana fungsi ini bekerja.
+
+## 6. Struktur Folder
+
+```
+jobsheet-07/
+├── index.php                   # Beranda, kini file PHP
+├── includes/
+│   ├── header.php               # BARU — bagian atas HTML + navbar, dipakai ulang
+│   └── footer.php               # BARU — bagian bawah HTML + footer, dipakai ulang
+├── assets/
+│   ├── css/style.css            # Ditambah gaya .flash
+│   └── js/app.js                 # Tidak berubah dari jobsheet-06
+├── buku/
+│   ├── list.php                  # Render dari $_SESSION, bukan lagi fetch/JSON
+│   ├── tambah.php                # Form kini punya method="post" & action
+│   └── proses_tambah.php         # BARU — validasi server + simpan ke $_SESSION
+├── anggota/
+│   ├── list.php
+│   ├── tambah.php
+│   └── proses_tambah.php         # BARU
+├── docs/wireframe.md              # Identik dengan jobsheet-06
+├── README.md
+└── Dokumentasi/                   # Folder dokumentasi ini
+```
