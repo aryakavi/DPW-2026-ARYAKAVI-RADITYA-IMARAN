@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>KegiatanKita | Pendaftaran Baru</title>
+    <link rel="stylesheet" href="../assets/css/Style.css">
+</head>
+<body>
+    <header>
+        <h1>KegiatanKita</h1>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="../kegiatan/list.html">Kegiatan</a></li>
+                <li><a href="../peserta/list.html">Peserta</a></li>
+                <li><a href="list.html">Pendaftaran</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Form Pendaftaran Kegiatan</h2>
+            <p id="loading-indicator" role="status" style="display:none;">Memuat data...</p>
+            <p id="form-status" class="table-counter" role="status" aria-live="polite"></p>
+            <form id="form-tambah">
+                <p>
+                    <label for="no_peserta">Peserta</label><br>
+                    <select id="no_peserta" name="no_peserta" required>
+                        <option value="">-- Pilih Peserta --</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="id_kegiatan">Kegiatan (hanya kuota tersedia)</label><br>
+                    <select id="id_kegiatan" name="id_kegiatan" required>
+                        <option value="">-- Pilih Kegiatan --</option>
+                    </select>
+                    <small>Kegiatan dengan kuota 0 tidak dapat dipilih.</small>
+                </p>
+                <p>
+                    <label for="tgl_daftar">Tanggal Daftar</label><br>
+                    <input type="date" id="tgl_daftar" name="tgl_daftar" readonly>
+                </p>
+                <p>
+                    <button type="submit">Simpan Pendaftaran</button>
+                </p>
+            </form>
+        </section>
+
+        <section>
+            <h2>Hasil Pendaftaran (sesi ini)</h2>
+            <p class="table-counter">Data di bawah belum tersimpan permanen; akan tersimpan ke basis data pada tahap back-end.</p>
+            <div class="table-responsive">
+                <table>
+                <thead>
+                    <tr>
+                        <th>No. Peserta</th>
+                        <th>Nama</th>
+                        <th>Kegiatan</th>
+                        <th>Tgl Daftar</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="hasil-pendaftaran">
+                    <tr data-status="true"><td colspan="5">Belum ada pendaftaran pada sesi ini.</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 KegiatanKita</p>
+    </footer>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/pendaftaran-form.js"></script>
+</body>
+</html>

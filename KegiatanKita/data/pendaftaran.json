@@ -1,0 +1,6 @@
+[
+    { "id_pendaftaran": "D001", "no_peserta": "P001", "id_kegiatan": "K001", "tgl_daftar": "2026-09-01", "status": "Terdaftar" },
+    { "id_pendaftaran": "D002", "no_peserta": "P002", "id_kegiatan": "K001", "tgl_daftar": "2026-09-02", "status": "Hadir" },
+    { "id_pendaftaran": "D003", "no_peserta": "P003", "id_kegiatan": "K002", "tgl_daftar": "2026-09-03", "status": "Terdaftar" },
+    { "id_pendaftaran": "D004", "no_peserta": "P004", "id_kegiatan": "K004", "tgl_daftar": "2026-09-04", "status": "Batal" }
+]

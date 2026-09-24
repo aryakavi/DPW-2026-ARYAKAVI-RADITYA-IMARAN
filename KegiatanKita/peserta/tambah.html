@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>KegiatanKita | Tambah Peserta</title>
+    <link rel="stylesheet" href="../assets/css/Style.css">
+</head>
+<body>
+    <header>
+        <h1>KegiatanKita</h1>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="../kegiatan/list.html">Kegiatan</a></li>
+                <li><a href="list.html">Peserta</a></li>
+                <li><a href="../pendaftaran/list.html">Pendaftaran</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Tambah Peserta</h2>
+            <form id="form-tambah">
+                <p>
+                    <label for="no_peserta">No. Peserta</label><br>
+                    <input type="text" id="no_peserta" name="no_peserta" required>
+                </p>
+                <p>
+                    <label for="nama">Nama</label><br>
+                    <input type="text" id="nama" name="nama" required>
+                </p>
+                <p>
+                    <label for="asal">Asal</label><br>
+                    <input type="text" id="asal" name="asal">
+                </p>
+                <p>
+                    <label for="no_hp">No. HP</label><br>
+                    <input type="text" id="no_hp" name="no_hp">
+                </p>
+                <p>
+                    <button type="submit">Simpan</button>
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 KegiatanKita</p>
+    </footer>
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

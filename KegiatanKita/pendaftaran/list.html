@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>KegiatanKita | Pendaftaran</title>
+    <link rel="stylesheet" href="../assets/css/Style.css">
+</head>
+<body>
+    <header>
+        <h1>KegiatanKita</h1>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="../kegiatan/list.html">Kegiatan</a></li>
+                <li><a href="../peserta/list.html">Peserta</a></li>
+                <li><a href="list.html">Pendaftaran</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Daftar Pendaftaran</h2>
+            <p><a href="daftar.html">+ Pendaftaran Baru</a></p>
+            <div class="search-box">
+                <label for="search-input">Cari Pendaftaran</label>
+                <input type="text" id="search-input" placeholder="Ketik kata kunci sesuai kolom pilihan...">
+                <label for="search-column">Kolom pencarian</label>
+                <select id="search-column">
+                    <option value="all">Semua Kolom Data</option>
+                    <option value="0">No. Peserta</option>
+                    <option value="1" selected>Nama</option>
+                    <option value="2">Kegiatan</option>
+                    <option value="3">Tgl Daftar</option>
+                    <option value="4">Status</option>
+                </select>
+            </div>
+            <button type="button" id="reload-pendaftaran" class="btn-reload">Muat Ulang</button>
+            <p id="table-counter" class="table-counter" role="status" aria-live="polite" data-label="pendaftaran">Menampilkan 0 dari 0 pendaftaran</p>
+            <p id="loading-indicator" role="status" style="display:none;">Memuat data...</p>
+            <div class="table-responsive">
+                <table>
+                <thead>
+                    <tr>
+                        <th>No. Peserta</th>
+                        <th>Nama</th>
+                        <th>Kegiatan</th>
+                        <th>Tgl Daftar</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 KegiatanKita</p>
+    </footer>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/pendaftaran.js"></script>
+</body>
+</html>

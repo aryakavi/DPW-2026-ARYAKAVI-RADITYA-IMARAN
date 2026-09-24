@@ -1,0 +1,12 @@
+[
+    { "id_kegiatan": "K001", "nama_kegiatan": "Seminar Nasional Teknologi 2026", "penyelenggara": "HMIT Polinema", "kategori": "Seminar", "tahun": 2026, "kuota": 4 },
+    { "id_kegiatan": "K002", "nama_kegiatan": "Workshop UI/UX untuk Pemula", "penyelenggara": "UKM Desain", "kategori": "Workshop", "tahun": 2026, "kuota": 2 },
+    { "id_kegiatan": "K003", "nama_kegiatan": "Pelatihan Keamanan Siber", "penyelenggara": "BEM Polinema", "kategori": "Pelatihan", "tahun": 2025, "kuota": 0 },
+    { "id_kegiatan": "K004", "nama_kegiatan": "Webinar Karier Data Analyst", "penyelenggara": "Alumni TI", "kategori": "Webinar", "tahun": 2026, "kuota": 5 },
+    { "id_kegiatan": "K005", "nama_kegiatan": "Lomba Karya Inovasi Mahasiswa", "penyelenggara": "HIMA TI", "kategori": "Lomba", "tahun": 2025, "kuota": 1 },
+    { "id_kegiatan": "K006", "nama_kegiatan": "Talkshow Startup Digital", "penyelenggara": "UKM Kewirausahaan", "kategori": "Talkshow", "tahun": 2026, "kuota": 3 },
+    { "id_kegiatan": "K007", "nama_kegiatan": "Pelatihan Public Speaking", "penyelenggara": "UKM Pramuka", "kategori": "Pelatihan", "tahun": 2026, "kuota": 2 },
+    { "id_kegiatan": "K008", "nama_kegiatan": "Festival Musik Kampus", "penyelenggara": "UKM Musik", "kategori": "Festival", "tahun": 2026, "kuota": 6 },
+    { "id_kegiatan": "K009", "nama_kegiatan": "Seminar Energi Terbarukan", "penyelenggara": "HIMA Mesin", "kategori": "Seminar", "tahun": 2025, "kuota": 0 },
+    { "id_kegiatan": "K010", "nama_kegiatan": "Workshop Fotografi Produk", "penyelenggara": "UKM Fotografi", "kategori": "Workshop", "tahun": 2026, "kuota": 4 }
+]

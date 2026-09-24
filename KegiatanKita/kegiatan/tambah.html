@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>KegiatanKita | Tambah Kegiatan</title>
+    <link rel="stylesheet" href="../assets/css/Style.css">
+</head>
+<body>
+    <header>
+        <h1>KegiatanKita</h1>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">&#9776;</button>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="list.html">Kegiatan</a></li>
+                <li><a href="../peserta/list.html">Peserta</a></li>
+                <li><a href="../pendaftaran/list.html">Pendaftaran</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Tambah Kegiatan</h2>
+            <form id="form-tambah">
+                <p>
+                    <label for="nama_kegiatan">Nama Kegiatan</label><br>
+                    <input type="text" id="nama_kegiatan" name="nama_kegiatan" required>
+                </p>
+                <p>
+                    <label for="penyelenggara">Penyelenggara</label><br>
+                    <input type="text" id="penyelenggara" name="penyelenggara" required>
+                </p>
+                <p>
+                    <label for="tahun">Tahun Pelaksanaan</label><br>
+                    <input type="number" id="tahun" name="tahun" min="1900" max="2026" step="1" required>
+                </p>
+                <p>
+                    <label for="kategori">Kategori</label><br>
+                    <select id="kategori" name="kategori">
+                        <option value="Seminar">Seminar</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Pelatihan">Pelatihan</option>
+                        <option value="Webinar">Webinar</option>
+                        <option value="Lomba">Lomba</option>
+                        <option value="Talkshow">Talkshow</option>
+                        <option value="Festival">Festival</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="kuota">Kuota Peserta</label><br>
+                    <input type="number" id="kuota" name="kuota" min="0" required>
+                </p>
+                <p>
+                    <button type="submit">Simpan</button>
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 KegiatanKita</p>
+    </footer>
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>
