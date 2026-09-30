@@ -7,52 +7,51 @@
 
 ---
 
-# Dokumentasi Jobsheet 8 — Koneksi PostgreSQL
+# 1. Dokumentasi Jobsheet 10 — Autentikasi & Manajemen Sesi
 
 Dokumentasi ini melanjutkan
-[dokumentasi jobsheet-07](../../jobsheet-07/Dokumentasi/README.md)
-(PHP Dasar & Form Handling). Jobsheet-08 menutup satu "lubang" penting
-yang sudah disinggung berkali-kali di dokumentasi sebelumnya: data yang
-**benar-benar tersimpan**, tidak hilang begitu sesi browser berakhir.
+[dokumentasi jobsheet-09](../../jobsheet-09/Dokumentasi/README.md) (CRUD Penuh). Jobsheet-10 mewujudkan sesuatu yang sudah dirancang **jauh sebelumnya**: ingat wireframe halaman Login dan pembagian aktor Tamu/Petugas yang sudah dibahas di [dokumentasi jobsheet-04](../../jobsheet-04/Dokumentasi/04-aktor-dan-otorisasi.md) — sekarang, 6 jobsheet kemudian, fitur itu **benar-benar dibangun**.
 
-## Tentang `docs/wireframe.md`
+## 2. Tentang `docs/wireframe.md`
 
 File ini **identik persis** dengan
-[`docs/wireframe.md` di jobsheet-07](../../jobsheet-07/docs/wireframe.md) —
-tidak ada rancangan UI/UX baru di jobsheet ini.
+[`docs/wireframe.md` di jobsheet-09](../../jobsheet-09/docs/wireframe.md).
 
-## Kenapa Ini Penting?
-
-Ingat catatan yang sudah berulang kali muncul sejak
-[dokumentasi jobsheet-07 §3.5](../../jobsheet-07/Dokumentasi/03-session-dan-alur-data.md#35-kenapa-data-ini-sementara):
-data di `$_SESSION` **hilang** begitu sesi browser berakhir. Jobsheet-08
-mengganti sumber data dari `$_SESSION` menjadi **database PostgreSQL**
-sungguhan — data yang kamu tambahkan sekarang akan **tetap ada**
-meskipun kamu menutup browser, mematikan komputer, atau kembali lagi
-besok.
-
-## Apa yang Baru di Jobsheet 8?
+## 3. Apa yang Baru di Jobsheet 10?
 
 Sesuai [README.md](../README.md) jobsheet ini:
 
-1. **`sql/01_buku_anggota.sql`** — skema database: perintah SQL untuk
-   membuat tabel `buku` dan `anggota`.
-2. **`includes/koneksi.php`** — kode PHP yang menghubungkan aplikasi ke
-   database PostgreSQL, memakai **PDO**.
-3. **`proses_tambah.php`** (buku & anggota) — `$_SESSION['buku'][] = ...`
-   dari jobsheet-07 diganti `INSERT ... RETURNING id` lewat **prepared
-   statement**.
-4. **`list.php`** (buku & anggota) — sumber data diganti dari
-   `$_SESSION` menjadi `SELECT * FROM ... ORDER BY id DESC`.
-5. **`index.php`** — kartu statistik Total Buku/Anggota sekarang
-   `SELECT COUNT(*)` dari database sungguhan, bukan lagi dummy/session.
+1. **`sql/02_users.sql`** — tabel `users` baru (nama, username, password, role).
+2. **Registrasi** (`auth/register.php` + `proses_register.php`) — password disimpan **terenkripsi** lewat `password_hash()`, dengan pengecekan username duplikat.
+3. **Login** (`auth/login.php` + `proses_login.php`) — memverifikasi password lewat `password_verify()`.
+4. **Logout** (`auth/logout.php`) — mengakhiri sesi lewat `session_destroy()`.
+5. **`includes/auth.php`** — "penjaga gerbang" yang mengalihkan pengunjung yang belum login ke halaman Login, dipasang di semua halaman yang **wajib** login.
+6. **Navbar dinamis** — menu dan status login/logout kini berubah tergantung apakah pengunjung sudah login atau belum.
+
+## 4. Mengingat Kembali: Aktor Tamu vs Petugas
+
+Ingat dari [dokumentasi jobsheet-04 §4](../../jobsheet-04/Dokumentasi/04-aktor-dan-otorisasi.md), `wireframe.md` sejak awal membedakan 2 aktor:
+
+> - **Tamu**: hanya bisa melihat katalog buku (Beranda, Daftar Buku)
+>   tanpa login.
+> - **Petugas**: login untuk mengakses seluruh fitur CRUD dan transaksi
+>   peminjaman.
+
+Jobsheet ini **mewujudkan pembagian itu secara teknis**:
+
+| Halaman | Akses |
+|---|---|
+| `index.php` (Beranda) | **Publik** — Tamu boleh mengakses |
+| `buku/list.php` (katalog buku) | **Publik** — Tamu boleh mengakses |
+| `buku/tambah.php`, `buku/edit.php`, `buku/hapus.php` | **Terkunci** — wajib login |
+| Seluruh halaman `anggota/*` | **Terkunci** — wajib login |
 
 ## 5. Ide Latihan Tambahan (Opsional)
 
-1. **Tangani error `UNIQUE` dengan rapi** — bungkus `$stmt->execute(...)` di `anggota/proses_tambah.php` dengan `try`/`catch (PDOException $e)`, lalu set `$_SESSION['flash']` berisi pesan seperti "No. Anggota sudah dipakai, gunakan nomor lain." alih-alih membiarkan error mentah ditampilkan ke pengguna.
-2. **Tambah kolom baru** — misalnya `tanggal_ditambahkan TIMESTAMP DEFAULT NOW()` di tabel `buku` (cari tahu sendiri arti `NOW()` dan `TIMESTAMP` lewat dokumentasi PostgreSQL), lalu tampilkan kolom itu di `buku/list.php`.
-3. **Buat query pencarian di server** — tambahkan `WHERE judul ILIKE :keyword` (`ILIKE` = pencocokan teks tanpa memandang huruf besar/kecil di PostgreSQL) ke query `SELECT` di `buku/list.php`, dihubungkan dengan kolom pencarian yang sudah ada di HTML — bandingkan dengan filter tabel **sisi klien** yang sudah kamu bangun di [dokumentasi jobsheet-05 §6](../../jobsheet-05/Dokumentasi/06-js-filter-tabel.md).
-4. **Migrasi data lama** — coba tulis skrip PHP kecil terpisah yang membaca `data/buku.json` dari jobsheet-06 ([dokumentasi jobsheet-06 §3](../../jobsheet-06/Dokumentasi/03-data-json.md)) lalu memasukkan seluruh isinya ke tabel `buku` lewat `INSERT` — latihan bagus untuk memahami bagaimana data lama bisa "dipindahkan" ke database baru.
+1. **Terapkan kontrol akses berbasis `role`** — sesuai catatan di [README.md](../README.md) jobsheet ini yang menyebutnya sebagai tugas mandiri: buat aturan misalnya hanya `role === 'admin'` yang boleh mengakses `anggota/hapus.php`, sementara `'petugas'` biasa hanya boleh melihat dan menambah data. Petunjuk: kamu perlu  menambah pengecekan baru **setelah** `require auth.php`, memeriksa  `$_SESSION['role']`.
+2. **Tambah "Ingat Saya" (Remember Me)** — cari tahu lewat dokumentasi PHP resmi bagaimana cookie dengan masa berlaku panjang bisa dipakai untuk menjaga sesi login tetap aktif meski browser ditutup (petunjuk: fungsi `setcookie()`), lalu diskusikan sendiri risiko keamanannya dibanding sekadar mengandalkan `$_SESSION` biasa.
+3. **Batasi percobaan Login yang gagal** — tambahkan penghitung percobaan gagal per username (bisa disimpan sementara di `$_SESSION` untuk latihan), dan tampilkan peringatan setelah beberapa kali gagal berturut-turut — langkah awal mencegah serangan *brute-force* menebak password.
+4. **Uji coba mematikan PostgreSQL** sesuai catatan di [README.md](../README.md) jobsheet ini — coba hentikan sementara layanan PostgreSQL di komputermu, lalu akses `/buku/tambah.php` tanpa login — buktikan sendiri kamu tetap diarahkan ke Login (bukan melihat error koneksi database), sesuai penjelasan di [bab 4 §4.6](04-guard-auth-php.md#46-kenapa-guard-ini-tetap-bekerja-meski-database-belum-tersambung).
 
 
 ## 6. Struktur Folder

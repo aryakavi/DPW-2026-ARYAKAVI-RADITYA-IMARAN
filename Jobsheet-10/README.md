@@ -7,29 +7,33 @@
 
 ---
 
-# Jobsheet 7 — PHP Dasar & Form Handling
+# Jobsheet 10 — Autentikasi & Manajemen Sesi
 
-Sub-CPMK: Mengimplementasikan dasar PHP & pengolahan form.
+Sub-CPMK: Menerapkan autentikasi & manajemen sesi pengguna.
 
-## Perubahan dari Jobsheet 6
-- Semua halaman `.html` diubah menjadi `.php`.
-- Diperkenalkan `includes/header.php` & `includes/footer.php` untuk menghindari duplikasi navbar/footer di setiap halaman (dipakai lewat `include`).
-- Path CSS/JS/menu memakai path **relatif** (`assets/css/style.css`, `index.php`, dst, tanpa awalan `/`), dihitung otomatis di `includes/header.php` berdasarkan kedalaman folder halaman yang sedang diakses (`$base` = `""` di root, `"../"` untuk halaman satu level ke dalam seperti `buku/`, `anggota/`). Jadi proyek ini tetap berjalan benar walau diakses dari root server (`php -S`) **maupun** lewat subfolder (mis. Laragon dengan document root di folder induk).
-- `buku/tambah.php` & `anggota/tambah.php`: form kini `method="post"` mengarah ke `proses_tambah.php` masing-masing.
-- `buku/proses_tambah.php` & `anggota/proses_tambah.php`: memvalidasi `$_POST` di server (validasi ini **terpisah** dari validasi JS di Jobsheet 5 — bisa berjalan sendiri walau JS dimatikan), lalu menyimpan sementara ke `$_SESSION['buku']` / `$_SESSION['anggota']` (array), redirect ke `list.php`.
-- `buku/list.php` & `anggota/list.php`: tabel dirender dari `$_SESSION` via `foreach` (menggantikan pendekatan fetch/JSON di Jobsheet 6 — rendering utama sekarang di server).
-- Flash message sukses/gagal ditampilkan lewat `$_SESSION['flash']`.
-- File `assets/js/buku.js`, `assets/js/anggota.js`, dan folder `data/` dari Jobsheet 6 **dihapus** karena rendering sudah dipindah ke server-side PHP.
+## Perubahan dari Jobsheet 9
+- Tambah `sql/02_users.sql` — tabel `users` (nama, username, password, role).
+- Tambah `auth/register.php` + `proses_register.php` (password disimpan dengan `password_hash()`, cek username duplikat), `auth/login.php` + `proses_login.php` (`password_verify()`), `auth/logout.php` (`session_destroy()`).
+- Tambah `includes/auth.php` — guard clause: redirect ke `auth/login.php` bila `$_SESSION['user_id']` belum ada. **Wajib di-include sebagai baris pertama** (sebelum `header.php`) agar `header('Location: ...')` masih bisa dipanggil sebelum ada output HTML.
+- `includes/header.php`: `session_start()` diubah jadi `if (session_status() === PHP_SESSION_NONE)` agar tidak konflik dengan `auth.php` yang juga memulai session; navbar kini menampilkan nama petugas + Logout jika sudah login, atau link Login jika belum.
+- Halaman yang **dikunci** (butuh login): `buku/tambah.php`, `buku/edit.php`, `buku/proses_tambah.php`, `buku/proses_edit.php`, `buku/hapus.php`, seluruh halaman `anggota/*`.
+- Halaman yang **tetap publik**: `index.php` (Beranda) dan `buku/list.php` (katalog buku bisa dilihat Tamu tanpa login — sesuai wireframe Jobsheet 4).
+
+## Persiapan database
+Jalankan skema tambahan:
+```bash
+psql -d simpus_mini -f sql/02_users.sql
+```
 
 ## Cara menjalankan
-**Opsi 1 — PHP built-in server**, jalankan dari dalam folder `jobsheet-07/`:
+**Opsi 1 — PHP built-in server**:
 ```bash
 php -S localhost:8000
 ```
-Buka `http://localhost:8000/index.php`.
+Uji: akses `http://localhost:8000/buku/tambah.php` langsung tanpa login → harus redirect ke halaman Login. Daftar akun via Register, login, coba akses halaman yang sama → berhasil.
 
-**Opsi 2 — Laragon (Apache)**: bisa lewat virtual host yang document root-nya langsung ke folder `jobsheet-07/` (mis. `http://jobsheet07.test/`), atau diakses bersarang di bawah domain proyek (mis. `http://dp2026.test/kode-praktikum/jobsheet-07/`) — dua-duanya jalan karena path CSS/JS/link sudah relatif otomatis (lihat catatan di atas).
+**Opsi 2 — Laragon (Apache)**: lewat virtual host langsung ke folder `jobsheet-10/` (mis. `http://jobsheet10.test/`), atau bersarang di bawah domain proyek (mis. `http://dp2026.test/kode-praktikum/jobsheet-10/`) — path CSS/JS/link/redirect login sudah relatif otomatis (lihat `includes/header.php` & `includes/auth.php`), jadi keduanya jalan.
 
 ## Catatan
-- Data yang disimpan di `$_SESSION` akan hilang saat sesi browser berakhir — ini jembatan sementara. Mulai Jobsheet 8, penyimpanan dipindah ke PostgreSQL agar persisten.
-- Coba nonaktifkan JavaScript di browser lalu submit form kosong: validasi server tetap mencegah data invalid tersimpan.
+- Guard `auth.php` sudah diverifikasi mengembalikan HTTP 302 ke `auth/login.php` untuk halaman terkunci meski database belum tersambung (guard berjalan sebelum kode butuh koneksi DB).
+- Perbedaan akses berdasarkan `role` (mis. hanya `admin` boleh hapus anggota) belum diterapkan di jobsheet ini — jadi tugas mandiri.
