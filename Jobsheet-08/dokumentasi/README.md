@@ -7,7 +7,7 @@
 
 ---
 
-# Dokumentasi Jobsheet 8 — Koneksi PostgreSQL
+# 1. Dokumentasi Jobsheet 8 — Koneksi PostgreSQL
 
 Dokumentasi ini melanjutkan
 [dokumentasi jobsheet-07](../../jobsheet-07/Dokumentasi/README.md)
@@ -15,13 +15,13 @@ Dokumentasi ini melanjutkan
 yang sudah disinggung berkali-kali di dokumentasi sebelumnya: data yang
 **benar-benar tersimpan**, tidak hilang begitu sesi browser berakhir.
 
-## Tentang `docs/wireframe.md`
+## 2. Tentang `docs/wireframe.md`
 
 File ini **identik persis** dengan
 [`docs/wireframe.md` di jobsheet-07](../../jobsheet-07/docs/wireframe.md) —
 tidak ada rancangan UI/UX baru di jobsheet ini.
 
-## Kenapa Ini Penting?
+## 3. Kenapa Ini Penting?
 
 Ingat catatan yang sudah berulang kali muncul sejak
 [dokumentasi jobsheet-07 §3.5](../../jobsheet-07/Dokumentasi/03-session-dan-alur-data.md#35-kenapa-data-ini-sementara):
@@ -31,7 +31,7 @@ sungguhan — data yang kamu tambahkan sekarang akan **tetap ada**
 meskipun kamu menutup browser, mematikan komputer, atau kembali lagi
 besok.
 
-## Apa yang Baru di Jobsheet 8?
+## 4. Apa yang Baru di Jobsheet 8?
 
 Sesuai [README.md](../README.md) jobsheet ini:
 
