@@ -1,6 +1,9 @@
 <?php
 require __DIR__ . '/../includes/auth.php';
+require __DIR__ . '/../includes/csrf.php';
 require __DIR__ . '/../includes/koneksi.php';
+
+csrf_verify();
 
 $judul = trim($_POST['judul'] ?? '');
 $pengarang = trim($_POST['pengarang'] ?? '');
@@ -34,7 +37,6 @@ $stmt = $pdo->prepare(
      VALUES (:judul, :pengarang, :tahun, :isbn, :stok, :kategori)
      RETURNING id"
 );
-
 $stmt->execute([
     'judul' => $judul,
     'pengarang' => $pengarang,
