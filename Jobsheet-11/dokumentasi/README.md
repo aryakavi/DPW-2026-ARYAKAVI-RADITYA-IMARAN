@@ -7,72 +7,92 @@
 
 ---
 
-# 1. Dokumentasi Jobsheet 10 — Autentikasi & Manajemen Sesi
+# Dokumentasi Jobsheet 11 — Keamanan Web Dasar
 
 Dokumentasi ini melanjutkan
-[dokumentasi jobsheet-09](../../jobsheet-09/Dokumentasi/README.md) (CRUD Penuh). Jobsheet-10 mewujudkan sesuatu yang sudah dirancang **jauh sebelumnya**: ingat wireframe halaman Login dan pembagian aktor Tamu/Petugas yang sudah dibahas di [dokumentasi jobsheet-04](../../jobsheet-04/Dokumentasi/04-aktor-dan-otorisasi.md) — sekarang, 6 jobsheet kemudian, fitur itu **benar-benar dibangun**.
+[dokumentasi jobsheet-10](../../jobsheet-10/Dokumentasi/README.md)
+(Autentikasi & Manajemen Sesi). Jobsheet-11 menutup **janji** yang
+sudah disebutkan berkali-kali di dokumentasi sebelumnya — ingat catatan
+di [dokumentasi jobsheet-09](../../jobsheet-09/Dokumentasi/05-pagination-dan-pencarian-server.md#58-form-pencarian-methodget):
+*"celah ini akan dibahas dan diperbaiki di Jobsheet 11"* — sekarang
+saatnya.
 
-## 2. Tentang `docs/wireframe.md`
+## Tentang `docs/wireframe.md`
 
 File ini **identik persis** dengan
-[`docs/wireframe.md` di jobsheet-09](../../jobsheet-09/docs/wireframe.md).
+[`docs/wireframe.md` di jobsheet-10](../../jobsheet-10/docs/wireframe.md).
 
-## 3. Apa yang Baru di Jobsheet 10?
+## Apa yang Baru di Jobsheet 11?
 
-Sesuai [README.md](../README.md) jobsheet ini:
+Sesuai [README.md](../README.md) jobsheet ini, ada **audit keamanan
+menyeluruh** terhadap kode Jobsheet 7-10, mencakup 5 kerentanan
+(lihat detail lengkapnya di
+[`docs/security-checklist.md`](../docs/security-checklist.md)):
 
-1. **`sql/02_users.sql`** — tabel `users` baru (nama, username, password, role).
-2. **Registrasi** (`auth/register.php` + `proses_register.php`) — password disimpan **terenkripsi** lewat `password_hash()`, dengan pengecekan username duplikat.
-3. **Login** (`auth/login.php` + `proses_login.php`) — memverifikasi password lewat `password_verify()`.
-4. **Logout** (`auth/logout.php`) — mengakhiri sesi lewat `session_destroy()`.
-5. **`includes/auth.php`** — "penjaga gerbang" yang mengalihkan pengunjung yang belum login ke halaman Login, dipasang di semua halaman yang **wajib** login.
-6. **Navbar dinamis** — menu dan status login/logout kini berubah tergantung apakah pengunjung sudah login atau belum.
+1. **SQL Injection** — diaudit ulang, sudah aman sejak jobsheet-08
+   (tidak ada perubahan kode).
+2. **XSS (Cross-Site Scripting)** — seluruh output data dari
+   database/`$_GET` sekarang dibungkus fungsi `e()` baru.
+3. **CSRF (Cross-Site Request Forgery)** — token tersembunyi
+   ditambahkan ke semua form `POST`, diverifikasi sebelum menyentuh
+   database.
+4. **Validasi & Sanitasi Input** — diaudit ulang, ditambah type casting
+   eksplisit di beberapa tempat.
+5. **Session Fixation** — `session_regenerate_id(true)` dipanggil
+   setelah login berhasil.
 
-## 4. Mengingat Kembali: Aktor Tamu vs Petugas
+Dua file baru menjadi pusat perubahan ini: **`includes/helpers.php`**
+(fungsi `e()`) dan **`includes/csrf.php`** (`csrf_token()`,
+`csrf_field()`, `csrf_verify()`).
 
-Ingat dari [dokumentasi jobsheet-04 §4](../../jobsheet-04/Dokumentasi/04-aktor-dan-otorisasi.md), `wireframe.md` sejak awal membedakan 2 aktor:
+## 6.4 Ide Latihan Tambahan (Opsional)
 
-> - **Tamu**: hanya bisa melihat katalog buku (Beranda, Daftar Buku)
->   tanpa login.
-> - **Petugas**: login untuk mengakses seluruh fitur CRUD dan transaksi
->   peminjaman.
+1. **Tambah proteksi CSRF ke form pencarian** — form `method="get"` di
+   `buku/list.php`
+   ([dokumentasi jobsheet-09 §5.8](../../jobsheet-09/Dokumentasi/05-pagination-dan-pencarian-server.md#58-form-pencarian-methodget))
+   **sengaja tidak** diberi token CSRF — diskusikan sendiri kenapa: apa
+   bedanya risiko form `GET` (yang hanya membaca data) dengan form
+   `POST` (yang mengubah data) dalam konteks serangan CSRF?
+2. **Tambah baris baru ke `security-checklist.md`** — audit satu
+   bagian aplikasi yang belum eksplisit disebutkan (misalnya:
+   "Apakah pesan error PHP mentah pernah bocor ke pengguna, membocorkan
+   detail struktur database/server?"), lengkap dengan kolom Sebelum/
+   Sesudah seperti baris-baris lainnya.
+3. **Terapkan `e()` di halaman yang belum diperiksa** — telusuri
+   sendiri apakah ada tempat lain di aplikasi (di luar yang disebutkan
+   di [README.md](../README.md)) yang mencetak data dari database/
+   `$_GET`/`$_POST` tanpa dibungkus `e()`.
+4. **Pelajari `Content-Security-Policy` (CSP)** — cari tahu lewat
+   dokumentasi web resmi bagaimana header HTTP ini bisa menjadi
+   **lapisan pertahanan tambahan** terhadap XSS, bahkan seandainya ada
+   satu tempat yang lolos dari `e()` tanpa sengaja.
 
-Jobsheet ini **mewujudkan pembagian itu secara teknis**:
 
-| Halaman | Akses |
-|---|---|
-| `index.php` (Beranda) | **Publik** — Tamu boleh mengakses |
-| `buku/list.php` (katalog buku) | **Publik** — Tamu boleh mengakses |
-| `buku/tambah.php`, `buku/edit.php`, `buku/hapus.php` | **Terkunci** — wajib login |
-| Seluruh halaman `anggota/*` | **Terkunci** — wajib login |
-
-## 5. Ide Latihan Tambahan (Opsional)
-
-1. **Terapkan kontrol akses berbasis `role`** — sesuai catatan di [README.md](../README.md) jobsheet ini yang menyebutnya sebagai tugas mandiri: buat aturan misalnya hanya `role === 'admin'` yang boleh mengakses `anggota/hapus.php`, sementara `'petugas'` biasa hanya boleh melihat dan menambah data. Petunjuk: kamu perlu  menambah pengecekan baru **setelah** `require auth.php`, memeriksa  `$_SESSION['role']`.
-2. **Tambah "Ingat Saya" (Remember Me)** — cari tahu lewat dokumentasi PHP resmi bagaimana cookie dengan masa berlaku panjang bisa dipakai untuk menjaga sesi login tetap aktif meski browser ditutup (petunjuk: fungsi `setcookie()`), lalu diskusikan sendiri risiko keamanannya dibanding sekadar mengandalkan `$_SESSION` biasa.
-3. **Batasi percobaan Login yang gagal** — tambahkan penghitung percobaan gagal per username (bisa disimpan sementara di `$_SESSION` untuk latihan), dan tampilkan peringatan setelah beberapa kali gagal berturut-turut — langkah awal mencegah serangan *brute-force* menebak password.
-4. **Uji coba mematikan PostgreSQL** sesuai catatan di [README.md](../README.md) jobsheet ini — coba hentikan sementara layanan PostgreSQL di komputermu, lalu akses `/buku/tambah.php` tanpa login — buktikan sendiri kamu tetap diarahkan ke Login (bukan melihat error koneksi database), sesuai penjelasan di [bab 4 §4.6](04-guard-auth-php.md#46-kenapa-guard-ini-tetap-bekerja-meski-database-belum-tersambung).
-
-
-## 6. Struktur Folder
+## Struktur Folder
 
 ```
-jobsheet-08/
-├── index.php                      # Kartu statistik dari SELECT COUNT(*)
+jobsheet-11/
 ├── includes/
-│   ├── header.php, footer.php      # Tidak berubah dari jobsheet-07
-│   └── koneksi.php                  # BARU — koneksi PDO ke PostgreSQL
-├── sql/
-│   └── 01_buku_anggota.sql          # BARU — skema tabel buku & anggota
-├── buku/
-│   ├── list.php                     # SELECT * FROM buku, bukan $_SESSION
-│   ├── tambah.php                   # Tidak berubah dari jobsheet-07
-│   └── proses_tambah.php            # INSERT via prepared statement
-├── anggota/
-│   ├── list.php
-│   ├── tambah.php
-│   └── proses_tambah.php            # INSERT via prepared statement
-├── docs/wireframe.md                 # Identik dengan jobsheet-07
+│   ├── helpers.php               # BARU — fungsi e() untuk XSS
+│   ├── csrf.php                   # BARU — token CSRF
+│   ├── auth.php                   # Tidak berubah dari jobsheet-10
+│   └── header.php                 # require_once helpers.php & csrf.php
+├── auth/
+│   ├── proses_login.php            # + session_regenerate_id(true), csrf_verify()
+│   └── ...                          # + csrf_field() di form
+├── buku/, anggota/
+│   ├── list.php, edit.php            # Output dibungkus e()
+│   ├── tambah.php, edit.php           # + csrf_field() di form
+│   └── proses_*.php, hapus.php        # + csrf_verify()
+├── docs/
+│   ├── wireframe.md                   # Identik dengan jobsheet-10
+│   └── security-checklist.md          # BARU — audit lengkap
 ├── README.md
-└── Dokumentasi/                      # Folder dokumentasi ini
+└── Dokumentasi/                        # Folder dokumentasi ini
 ```
+
+**Catatan penting** dari [README.md](../README.md) jobsheet ini: bagian
+"Cara menguji" berisi 3 langkah verifikasi konkret (uji CSRF lewat
+`curl`, uji XSS dengan menyimpan `<script>alert(1)</script>`, dan uji
+urutan guard) — semuanya dibahas ulang di bab-bab berikutnya dan
+dirangkum di [bab 6](06-rangkuman-latihan.md).
