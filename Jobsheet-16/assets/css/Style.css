@@ -7,24 +7,28 @@
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    color: #2b2b2b;
-    background-color: #f5f6f8;
+    color: #e7f1f2;
+    background: linear-gradient(135deg, #090f1c 0%, #112633 55%, #183a3d 100%);
+    min-height: 100vh;
     line-height: 1.5;
+    color-scheme: dark;
 }
 
 a {
-    color: #2E8B57;
+    color: #79dfc7;
     text-decoration: none;
+    transition: color 200ms ease;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #b5f4df;
 }
 
 /* ===== Header & Navbar (Flexbox) ===== */
 header {
-    background-color: #2E8B57;
-    color: #fff;
+    background-color: #10232e;
+    color: #e7f1f2;
+    border-bottom: 1px solid #31535b;
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
@@ -44,8 +48,18 @@ header nav ul {
 }
 
 header nav a {
-    color: #fff;
+    color: #d7e8e9;
     font-weight: 500;
+    display: inline-block;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+header nav a:hover {
+    background-color: #23424b;
+    color: #b5f4df;
+    transform: translateY(-2px);
 }
 
 /* ===== Main Layout ===== */
@@ -56,46 +70,55 @@ main {
 }
 
 section {
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: #13222f;
+    border: 1px solid #34515c;
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
 section h2 {
     margin-bottom: 1rem;
-    color: #2E8B57;
+    color: #91e7cd;
 }
 
-main section:nth-of-type(2) h2 {
+.home main section:nth-of-type(2) h2 {
     grid-column: 1 / -1;
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
-main section:nth-of-type(2){
+.home main section:nth-of-type(2) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
-main section:nth-of-type(2) article {
-    background-color: #eef4fa;
-    border-radius: 8px;
+.home main section:nth-of-type(2) article {
+    background-color: #19333d;
+    border: 1px solid #477e83;
+    border-radius: 10px;
     padding: 1.25rem;
     text-align: center;
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
-main section:nth-of-type(2) article h3 {
+.home main section:nth-of-type(2) article:hover {
+    transform: translateY(-4px);
+    border-color: #79dfc7;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+.home main section:nth-of-type(2) article h3 {
     font-size: 0.95rem;
-    color: #55677a;
+    color: #b7cdd1;
     margin-bottom: 0.5rem;
 }
 
-main section:nth-of-type(2) article p {
+.home main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #2E8B57;
+    color: #91e7cd;
 }
 
 /* ===== Tabel ===== */
@@ -107,20 +130,24 @@ table {
 th, td {
     text-align: left;
     padding: 0.65rem 0.75rem;
-    border-bottom: 1px solid #e2e6ea;
+    border-bottom: 1px solid #34515c;
 }
 
 thead {
-    background-color: #2E8B57;
-    color: #fff;
+    background-color: #1c4148;
+    color: #e7f1f2;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f7f9fb;
+    background-color: #1a2d39;
 }
 
 tbody tr:hover {
-    background-color: #eef4fa;
+    background-color: #28454c;
+}
+
+tbody tr {
+    transition: background-color 200ms ease;
 }
 
 td button {
@@ -130,30 +157,38 @@ td button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
+    transition: filter 200ms ease, transform 200ms ease;
+}
+
+td button:hover,
+.btn-reload:hover,
+form button[type="submit"]:hover {
+    filter: brightness(1.15);
+    transform: translateY(-2px);
 }
 
 td button:first-of-type {
-    background-color: #f0ad4e;
+    background-color: #946125;
     color: #fff;
 }
 
 td button:last-of-type {
-    background-color: #d9534f;
+    background-color: #a43f49;
     color: #fff;
 }
 
 td button.btn-edit {
-    background-color: #f0ad4e;
+    background-color: #946125;
     color: #fff;
 }
 
 td button.btn-detail {
-    background-color: #5bc0de; 
+    background-color: #216e89;
     color: #fff;
 }
 
 td button.btn-hapus {
-    background-color: #d9534f;
+    background-color: #a43f49;
     color: #fff;
 }
 
@@ -166,7 +201,7 @@ form label {
     display: block;
     margin-bottom: 0.35rem;
     font-weight: 600;
-    color: #444;
+    color: #c6dadd;
 }
 
 form input,
@@ -174,30 +209,33 @@ form select {
     width: 100%;
     max-width: 400px;
     padding: 0.55rem 0.7rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
+    border: 1px solid #42616a;
+    border-radius: 6px;
     font-size: 1rem;
+    background-color: #182f3b;
+    color: #e7f1f2;
 }
 
 form button[type="submit"] {
-    background-color: #1d5b8a;
+    background-color: #247b75;
     color: #fff;
     border: none;
     padding: 0.6rem 1.5rem;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 200ms ease, filter 200ms ease, transform 200ms ease;
 }
 
 form button[type="submit"]:hover {
-    background-color: #164869;
+    background-color: #30958a;
 }
 
 /* ===== Footer ===== */
 footer {
     text-align: center;
     padding: 1.25rem;
-    color: #7a8794;
+    color: #a8bdc4;
     font-size: 0.9rem;
 }
 
@@ -224,7 +262,7 @@ pre {
 
 .error {
     display: block;
-    color: #d9534f;
+    color: #ff9da4;
     font-size: 0.85rem;
     margin-top: 0.25rem;
 }
@@ -243,8 +281,10 @@ pre {
     width: 100%;
     max-width: 320px;
     padding: 0.5rem 0.75rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
+    border: 1px solid #42616a;
+    border-radius: 6px;
+    background-color: #182f3b;
+    color: #e7f1f2;
 }
 
 /* latihan 3 Dropdown pemilihan */
@@ -256,20 +296,33 @@ pre {
     width: 100%;
     max-width: 320px;
     padding: 0.5rem 0.75rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
-    background-color: #fff;
+    border: 1px solid #42616a;
+    border-radius: 6px;
+    background-color: #182f3b;
+    color: #e7f1f2;
+}
+
+input::placeholder {
+    color: #abc1c7;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #91e7cd;
+    outline-offset: 2px;
 }
 
 /* latihan 4 menambahkan fungsi table counter untuk menghitung */
 .table-counter {
     margin-bottom: 0.75rem;
-    color: #55677a;
+    color: #b7cdd1;
     font-size: 0.9rem;
 }
 
 .btn-reload {
-    background: #2E8B57;
+    background: #247b75;
     color: #fff;
     padding: 0.55rem 1rem;
     border: none;
@@ -277,18 +330,21 @@ pre {
     margin-bottom: 0.75rem;
     cursor: pointer;
     font: inherit;
+    transition: filter 200ms ease, transform 200ms ease;
 }
 
 .btn-reload:disabled {
     opacity: 0.6;
     cursor: wait;
+    transform: none;
+    filter: none;
 }
 
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */
 @media (max-width: 900px) {
-    main section:nth-of-type(2) {
+    .home main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -319,7 +375,7 @@ pre {
         gap: 0.75rem;
     }
 
-    main section:nth-of-type(2) {
+    .home main section:nth-of-type(2) {
         grid-template-columns: 1fr;
     }
 
@@ -361,5 +417,18 @@ pre {
         transform: translateY(0);
         visibility: visible;
         transition-delay: 0s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a, header nav a, .home main section:nth-of-type(2) article,
+    tbody tr, td button, .btn-reload, form button[type="submit"],
+    header nav.transition {
+        transition: none;
+    }
+
+    header nav a:hover, .home main section:nth-of-type(2) article:hover,
+    td button:hover, .btn-reload:hover, form button[type="submit"]:hover {
+        transform: none;
     }
 }
