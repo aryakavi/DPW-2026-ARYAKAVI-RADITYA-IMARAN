@@ -1,3 +1,6 @@
+/* ===== Data pendaftaran ===== */
+
+// Mengambil tiga sumber data, menggabungkan nama terkait, lalu merender tabel pendaftaran.
 async function muatDaftarPendaftaran() {
     const tbody = document.querySelector(".table-responsive table tbody");
     const loading = document.getElementById("loading-indicator");
@@ -74,6 +77,7 @@ async function muatDaftarPendaftaran() {
     }
 }
 
+// Menampilkan pesan kosong atau error sebagai satu baris status tabel pendaftaran.
 function tampilkanStatusPendaftaran(tbody, pesan) {
     const tr = document.createElement("tr");
     tr.dataset.status = "true";

@@ -3,6 +3,9 @@ let dataKegiatan = [];
 const pendaftaranSesi = new Set();
 let nomorSesi = 0;
 
+/* ===== Form pendaftaran ===== */
+
+// Mengisi input tanggal dengan tanggal lokal saat halaman dibuka.
 function isiTanggalHariIni() {
     const input = document.getElementById("tgl_daftar");
     if (!input) return;
@@ -12,6 +15,7 @@ function isiTanggalHariIni() {
     input.value = hariIni.getFullYear() + "-" + bulan + "-" + tanggal;
 }
 
+// Mengisi dropdown peserta berdasarkan data peserta yang sudah dimuat.
 function isiPilihanPeserta() {
     const select = document.getElementById("no_peserta");
     if (!select) return;
@@ -29,6 +33,7 @@ function isiPilihanPeserta() {
     });
 }
 
+// Mengisi dropdown kegiatan dan menonaktifkan kegiatan tanpa kuota.
 function isiPilihanKegiatan() {
     const select = document.getElementById("id_kegiatan");
     if (!select) return;
@@ -50,16 +55,19 @@ function isiPilihanKegiatan() {
     if (terpilih) select.value = terpilih;
 }
 
+// Mencari nama peserta berdasarkan nomor peserta.
 function ambilNamaPeserta(noPeserta) {
     const peserta = dataPeserta.find(function (item) { return item.no_peserta === noPeserta; });
     return peserta ? peserta.nama : "(peserta tidak dikenal)";
 }
 
+// Mencari nama kegiatan berdasarkan ID kegiatan.
 function ambilNamaKegiatan(idKegiatan) {
     const kegiatan = dataKegiatan.find(function (item) { return item.id_kegiatan === idKegiatan; });
     return kegiatan ? kegiatan.nama_kegiatan : "(kegiatan tidak dikenal)";
 }
 
+// Menampilkan pesan proses dengan warna sukses atau gagal.
 function tampilkanPesan(pesan, berhasil) {
     const status = document.getElementById("form-status");
     if (!status) return;
@@ -67,6 +75,7 @@ function tampilkanPesan(pesan, berhasil) {
     status.style.color = berhasil ? "#2E8B57" : "#d9534f";
 }
 
+// Menambahkan hasil pendaftaran baru ke bagian paling atas tabel.
 function tambahBarisHasil(pendaftaran) {
     const tbody = document.getElementById("hasil-pendaftaran");
     if (!tbody) return;
@@ -83,6 +92,7 @@ function tambahBarisHasil(pendaftaran) {
     tbody.prepend(tr);
 }
 
+// Mengambil data peserta dan kegiatan untuk mengisi pilihan formulir.
 async function muatDataForm() {
     const loading = document.getElementById("loading-indicator");
     if (loading) loading.style.display = "block";
@@ -113,6 +123,7 @@ async function muatDataForm() {
     }
 }
 
+// Memvalidasi pilihan, mengurangi kuota, dan menambahkan pendaftaran ke sesi aktif.
 function tanganiSubmit(e) {
     const selectPeserta = document.getElementById("no_peserta");
     const selectKegiatan = document.getElementById("id_kegiatan");

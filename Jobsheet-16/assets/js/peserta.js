@@ -1,3 +1,6 @@
+/* ===== Data peserta ===== */
+
+// Mengambil data peserta, memvalidasi bentuknya, lalu merender baris tabel.
 async function muatDaftarPeserta() {
     const tbody = document.querySelector(".table-responsive table tbody");
     const loading = document.getElementById("loading-indicator");
@@ -55,6 +58,7 @@ async function muatDaftarPeserta() {
     }
 }
 
+// Menampilkan pesan kosong atau error sebagai satu baris status tabel peserta.
 function tampilkanStatusPeserta(tbody, pesan) {
     const tr = document.createElement("tr");
     tr.dataset.status = "true";

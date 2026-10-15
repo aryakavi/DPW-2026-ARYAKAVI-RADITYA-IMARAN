@@ -1,3 +1,6 @@
+/* ===== Data kegiatan ===== */
+
+// Mengambil data kegiatan, memvalidasi bentuknya, lalu merender baris tabel.
 async function muatDaftarKegiatan() {
     const tbody = document.querySelector(".table-responsive table tbody");
     const loading = document.getElementById("loading-indicator");
@@ -56,6 +59,7 @@ async function muatDaftarKegiatan() {
     }
 }
 
+// Menampilkan pesan kosong atau error sebagai satu baris status tabel kegiatan.
 function tampilkanStatusKegiatan(tbody, pesan) {
     const tr = document.createElement("tr");
     tr.dataset.status = "true";
