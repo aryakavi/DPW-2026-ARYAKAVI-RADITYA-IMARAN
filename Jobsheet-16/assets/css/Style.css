@@ -1,13 +1,11 @@
 /* ===== Reset & Base =====
    Menyamakan box model, jarak default, tipografi, warna teks, dan latar halaman. */
-/* Selector universal: menerapkan aturan dasar ke semua elemen. */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* Selector body: mengatur font, warna, latar, dan tinggi minimum halaman. */
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     color: #e7f1f2;
@@ -17,21 +15,18 @@ body {
     color-scheme: dark;
 }
 
-/* Selector a: memberi gaya dasar pada semua tautan. */
 a {
     color: #79dfc7;
     text-decoration: none;
     transition: color 200ms ease;
 }
 
-/* Selector a:hover: mencerahkan tautan saat pointer berada di atasnya. */
 a:hover {
     color: #b5f4df;
 }
 
 /* ===== Header & Navbar (Flexbox) =====
    Mengatur identitas halaman dan navigasi menggunakan Flexbox. */
-/* Selector header: menyusun identitas halaman dan navigasi dengan Flexbox. */
 header {
     background-color: #10232e;
     color: #e7f1f2;
@@ -43,12 +38,10 @@ header {
     flex-wrap: wrap;
 }
 
-/* Selector header h1: mengatur ukuran judul pada header. */
 header h1 {
     font-size: 1.4rem;
 }
 
-/* Selector header nav ul: menghilangkan bullet dan menyusun menu secara horizontal. */
 header nav ul {
     list-style: none;
     display: flex;
@@ -56,7 +49,6 @@ header nav ul {
     flex-wrap: wrap;
 }
 
-/* Selector header nav a: mengatur tampilan setiap tautan navigasi. */
 header nav a {
     color: #d7e8e9;
     font-weight: 500;
@@ -66,7 +58,6 @@ header nav a {
     transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
 }
 
-/* Selector header nav a:hover: memberi efek hover pada tautan navigasi. */
 header nav a:hover {
     background-color: #23424b;
     color: #b5f4df;
@@ -75,14 +66,12 @@ header nav a:hover {
 
 /* ===== Main Layout =====
    Membatasi lebar konten serta memberi tampilan panel pada setiap section. */
-/* Selector main: membatasi lebar dan memberi jarak area konten utama. */
 main {
     max-width: 1000px;
     margin: 2rem auto;
     padding: 0 1.5rem;
 }
 
-/* Selector section: menampilkan setiap bagian konten sebagai panel. */
 section {
     background-color: #13222f;
     border: 1px solid #34515c;
@@ -98,21 +87,18 @@ section h2 {
     color: #91e7cd;
 }
 
-/* Selector judul statistik: membuat judul membentang di seluruh grid. */
 .home main section:nth-of-type(2) h2 {
     grid-column: 1 / -1;
 }
 
 /* ===== Kartu Statistik (CSS Grid) =====
    Menyusun ringkasan beranda menjadi kartu statistik berbasis CSS Grid. */
-/* Selector grid statistik: menyusun kartu ringkasan dalam empat kolom. */
 .home main section:nth-of-type(2) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
-/* Selector kartu statistik: mengatur permukaan, jarak, dan transisi kartu. */
 .home main section:nth-of-type(2) article {
     background-color: #19333d;
     border: 1px solid #477e83;
@@ -122,21 +108,18 @@ section h2 {
     transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
-/* Selector hover kartu: mengangkat kartu dan memperjelas border. */
 .home main section:nth-of-type(2) article:hover {
     transform: translateY(-4px);
     border-color: #79dfc7;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
 }
 
-/* Selector judul kartu: mengatur label kecil pada kartu statistik. */
 .home main section:nth-of-type(2) article h3 {
     font-size: 0.95rem;
     color: #b7cdd1;
     margin-bottom: 0.5rem;
 }
 
-/* Selector nilai kartu: menonjolkan angka statistik. */
 .home main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
@@ -145,41 +128,34 @@ section h2 {
 
 /* ===== Tabel =====
    Mengatur tabel data, warna baris, serta tombol aksi Edit, Detail, dan Hapus. */
-/* Selector table: membuat tabel memenuhi lebar container. */
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Selector th dan td: mengatur teks, jarak, dan garis setiap sel. */
 th, td {
     text-align: left;
     padding: 0.65rem 0.75rem;
     border-bottom: 1px solid #34515c;
 }
 
-/* Selector thead: memberi warna pembeda pada kepala tabel. */
 thead {
     background-color: #1c4148;
     color: #e7f1f2;
 }
 
-/* Selector baris genap: memberi efek zebra pada tabel. */
 tbody tr:nth-child(even) {
     background-color: #1a2d39;
 }
 
-/* Selector hover baris: mengubah latar baris saat pointer berada di atasnya. */
 tbody tr:hover {
     background-color: #28454c;
 }
 
-/* Selector baris tabel: menghaluskan perubahan warna baris. */
 tbody tr {
     transition: background-color 200ms ease;
 }
 
-/* Selector tombol sel: mengatur ukuran dan bentuk tombol dalam tabel. */
 td button {
     padding: 0.35rem 0.7rem;
     margin-right: 0.35rem;
@@ -190,7 +166,6 @@ td button {
     transition: filter 200ms ease, transform 200ms ease;
 }
 
-/* Selector hover tombol: mencerahkan dan mengangkat tombol interaktif. */
 td button:hover,
 .btn-reload:hover,
 form button[type="submit"]:hover {
@@ -198,31 +173,26 @@ form button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-/* Selector tombol pertama: memberi warna aksi pertama pada setiap sel. */
 td button:first-of-type {
     background-color: #946125;
     color: #fff;
 }
 
-/* Selector tombol terakhir: memberi warna aksi terakhir pada setiap sel. */
 td button:last-of-type {
     background-color: #a43f49;
     color: #fff;
 }
 
-/* Selector tombol Edit: memberi warna khusus untuk aksi edit. */
 td button.btn-edit {
     background-color: #946125;
     color: #fff;
 }
 
-/* Selector tombol Detail: memberi warna khusus untuk aksi detail. */
 td button.btn-detail {
     background-color: #216e89;
     color: #fff;
 }
 
-/* Selector tombol Hapus: memberi warna khusus untuk aksi hapus. */
 td button.btn-hapus {
     background-color: #a43f49;
     color: #fff;
@@ -230,12 +200,10 @@ td button.btn-hapus {
 
 /* ===== Form =====
    Menata label, input, select, dan tombol submit pada halaman formulir. */
-/* Selector form p: memberi jarak antar kelompok formulir. */
 form p {
     margin-bottom: 1rem;
 }
 
-/* Selector form label: menata label agar tampil di atas kontrolnya. */
 form label {
     display: block;
     margin-bottom: 0.35rem;
@@ -243,7 +211,6 @@ form label {
     color: #c6dadd;
 }
 
-/* Selector input dan select form: menyamakan ukuran dan tampilan kontrol. */
 form input,
 form select {
     width: 100%;
@@ -256,7 +223,6 @@ form select {
     color: #e7f1f2;
 }
 
-/* Selector tombol submit: mengatur tombol simpan atau kirim formulir. */
 form button[type="submit"] {
     background-color: #247b75;
     color: #fff;
@@ -268,14 +234,12 @@ form button[type="submit"] {
     transition: background-color 200ms ease, filter 200ms ease, transform 200ms ease;
 }
 
-/* Selector hover submit: mengubah warna tombol saat pointer berada di atasnya. */
 form button[type="submit"]:hover {
     background-color: #30958a;
 }
 
 /* ===== Footer =====
    Menentukan posisi, ukuran, dan warna teks informasi penutup halaman. */
-/* Selector footer: menata teks penutup halaman. */
 footer {
     text-align: center;
     padding: 1.25rem;
@@ -286,12 +250,10 @@ footer {
 /* ===== Komponen Responsif dan Status =====
    Menjaga tabel atau blok kode dapat digeser, lalu menata menu mobile, error,
    pencarian, placeholder, dan fokus keyboard. */
-/* Selector table-responsive: mengaktifkan scroll horizontal pada tabel lebar. */
 .table-responsive {
     overflow-x: auto;
 }
 
-/* Selector code-responsive dan pre: menjaga blok kode tetap dapat digeser. */
 .code-responsive, 
 pre {
     overflow-x: auto;
@@ -299,7 +261,6 @@ pre {
     white-space: pre;
 }
     
-/* Selector nav-toggle-label: menyembunyikan tombol menu mobile pada layar besar. */
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
@@ -309,7 +270,6 @@ pre {
     cursor: pointer;
 }
 
-/* Selector error: menampilkan pesan validasi dengan gaya khusus. */
 .error {
     display: block;
     color: #ff9da4;
@@ -317,19 +277,16 @@ pre {
     margin-top: 0.25rem;
 }
 
-/* Selector search-box: memberi jarak bawah pada area pencarian. */
 .search-box {
     margin-bottom: 1rem;
 }
 
-/* Selector label pencarian: menempatkan label di atas kontrol pencarian. */
 .search-box label {
     display: block;
     margin-bottom: 0.35rem;
     font-weight: 600;
 }
 
-/* Selector input pencarian: mengatur ukuran dan warna input pencarian. */
 .search-box input {
     width: 100%;
     max-width: 320px;
@@ -340,12 +297,10 @@ pre {
     color: #e7f1f2;
 }
 
-/* Selector placeholder: mengatur warna teks petunjuk dalam input. */
 input::placeholder {
     color: #abc1c7;
 }
 
-/* Selector focus-visible: memberi indikator fokus keyboard pada kontrol. */
 input:focus-visible,
 select:focus-visible,
 button:focus-visible,
@@ -356,14 +311,12 @@ a:focus-visible {
 
 /* ===== Counter Tabel dan Tombol Muat Ulang =====
    Menampilkan jumlah data dan mengatur status tombol reload pada latihan 4. */
-/* Selector table-counter: menampilkan informasi jumlah data tabel. */
 .table-counter {
     margin-bottom: 0.75rem;
     color: #b7cdd1;
     font-size: 0.9rem;
 }
 
-/* Selector btn-reload: mengatur tombol muat ulang data. */
 .btn-reload {
     background: #247b75;
     color: #fff;
@@ -376,7 +329,6 @@ a:focus-visible {
     transition: filter 200ms ease, transform 200ms ease;
 }
 
-/* Selector btn-reload:disabled: menunjukkan tombol sedang tidak dapat digunakan. */
 .btn-reload:disabled {
     opacity: 0.6;
     cursor: wait;
@@ -386,28 +338,21 @@ a:focus-visible {
 
 /* ===== Responsive Breakpoints =====
    Mengubah grid, navigasi, dan ukuran form berdasarkan lebar layar. */
-
-/* Tablet ke bawah: dua kartu statistik per baris. */
 @media (max-width: 900px) {
-    /* Selector grid statistik tablet: mengubah kartu menjadi dua kolom. */
     .home main section:nth-of-type(2) {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Mobile: navigasi dapat dibuka, kartu menjadi satu kolom, form memenuhi layar. */
 @media (max-width: 480px) {
-    /* Selector header mobile: menjadi acuan posisi tombol menu. */
     header {
         position: relative;
     }
 
-    /* Selector tombol menu mobile: menampilkan tombol navigasi. */
     .nav-toggle-label {
         display: block;
     }
 
-    /* Selector nav mobile: menyembunyikan navigasi sebelum dibuka. */
     header nav {
         display: none;
         width: 100%;
@@ -415,40 +360,32 @@ a:focus-visible {
         margin-top: 1rem;
     }
 
-    /* Selector nav terbuka: menampilkan navigasi mobile. */
     header nav.nav-open {
         display: block;
     }
 
-    /* Selector menu mobile: menumpuk item navigasi secara vertikal. */
     header nav ul {
         flex-direction: column;
         gap: 0.75rem;
     }
 
-    /* Selector grid statistik mobile: membuat setiap kartu satu baris. */
     .home main section:nth-of-type(2) {
         grid-template-columns: 1fr;
     }
 
-    /* Selector kontrol form mobile: menggunakan lebar penuh container. */
     form input,
     form select {
         max-width: 100%;
     }
 }
 
-/* Monitor sangat lebar: memberi ruang konten tambahan. */
 @media (min-width: 1400px) {
-    /* Selector main monitor lebar: memperluas area konten. */
     main {
         max-width: 1250px; 
     }
 }
 
-/* Menu mobile: mengganti display biasa dengan grid agar pembukaan dapat dianimasikan. */
 @media (max-width: 480px) {
-    /* Selector nav transition: menyiapkan animasi buka menu dengan CSS Grid. */
     header nav.transition {
         display: grid;
         grid-template-rows: 0fr;
@@ -460,13 +397,11 @@ a:focus-visible {
             opacity 250ms ease, transform 250ms ease, visibility 0s linear 250ms;
     }
 
-    /* Selector daftar menu transition: menyembunyikan isi saat menu tertutup. */
     header nav.transition > ul {
         min-height: 0;
         overflow: hidden;
     }
 
-    /* Selector nav transition terbuka: menjalankan animasi pembukaan menu. */
     header nav.transition.nav-open {
         grid-template-rows: 1fr;
         margin-top: 1rem;
@@ -477,16 +412,13 @@ a:focus-visible {
     }
 }
 
-/* Aksesibilitas gerakan: mematikan animasi saat pengguna meminta gerakan minimal. */
 @media (prefers-reduced-motion: reduce) {
-    /* Selector transisi reduced motion: mematikan animasi untuk aksesibilitas. */
     a, header nav a, .home main section:nth-of-type(2) article,
     tbody tr, td button, .btn-reload, form button[type="submit"],
     header nav.transition {
         transition: none;
     }
 
-    /* Selector hover reduced motion: mencegah pergeseran saat gerakan dikurangi. */
     header nav a:hover, .home main section:nth-of-type(2) article:hover,
     td button:hover, .btn-reload:hover, form button[type="submit"]:hover {
         transform: none;
