@@ -1,11 +1,16 @@
+/* ===== Navigasi, tabel, dan validasi umum ===== */
+
+// Mengaktifkan tombol buka/tutup navigasi mobile dan menyinkronkan status aksesibilitasnya.
 function initNavToggle() {
     const toggleBtn = document.getElementById("nav-toggle-btn");
     const nav = document.querySelector("header nav");
     if (!toggleBtn || !nav) return;
 
+    // perubahan yang untuk latihan 2, memasang class transition
     const mobile = window.matchMedia("(max-width: 480px)");
     nav.classList.add("transition");
 
+    // Menyesuaikan atribut inert dan aria-expanded dengan kondisi layar serta menu.
     function syncNavState() {
         const terlihat = !mobile.matches || nav.classList.contains("nav-open");
         nav.inert = !terlihat;
@@ -21,6 +26,7 @@ function initNavToggle() {
     syncNavState();
 }
 
+// Meminta konfirmasi sebelum menghapus baris tabel secara langsung dari DOM.
 function initHapusConfirm() {
     document.addEventListener("click", function (e) {
         if (!(e.target instanceof Element)) return;
@@ -38,21 +44,22 @@ function initHapusConfirm() {
     });
 }
 
+// Menyaring baris tabel berdasarkan kata kunci pada seluruh kolom data.
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
-    const column = document.getElementById("search-column");
-    if (!input || !table || !column) return;
+    if (!input || !table) return;
 
+    // Menentukan baris yang tampil berdasarkan kata kunci pencarian.
     function filterRows() {
         const keyword = input.value.toLowerCase();
         const rows = table.querySelectorAll("tbody tr:not([data-status])");
         rows.forEach(function (row) {
             const cells = Array.from(row.querySelectorAll("td"));
-            const teksKolom = column.value === "all"
-                ? cells.slice(0, -1).map(function (cell) { return cell.textContent; }).join(" ")
-                : cells[Number(column.value)]?.textContent || "";
-            const teks = teksKolom.toLowerCase();
+            const teks = cells.slice(0, -1)
+                .map(function (cell) { return cell.textContent; })
+                .join(" ")
+                .toLowerCase();
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
         updateTableCounter();
@@ -60,13 +67,13 @@ function initTableFilter() {
 
     input.addEventListener("keyup", filterRows);
     input.addEventListener("input", filterRows);
-    column.addEventListener("change", filterRows);
     table.addEventListener("table:updated", function () {
         initTableCounter();
         filterRows();
     });
 }
 
+// Menyimpan jumlah data awal sebagai dasar informasi counter tabel.
 function initTableCounter() {
     const counter = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
@@ -76,11 +83,13 @@ function initTableCounter() {
     updateTableCounter();
 }
 
+// Menghitung dan menampilkan jumlah baris yang sedang terlihat.
 function updateTableCounter() {
     const counter = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
     if (!counter || !table) return;
 
+    // UBAH: pesan gagal/kosong tidak dihitung sebagai data ketika fetch bermasalah.
     const rows = Array.from(table.querySelectorAll("tbody tr:not([data-status])"));
     const terlihat = rows.filter(function (row) {
         return getComputedStyle(row).display !== "none";
@@ -89,6 +98,7 @@ function updateTableCounter() {
     if (counter.textContent !== pesan) counter.textContent = pesan;
 }
 
+// Menampilkan pesan error validasi dan menghubungkannya ke input terkait.
 function tampilkanError(input, pesan) {
     hapusError(input);
     const span = document.createElement("span");
@@ -100,6 +110,7 @@ function tampilkanError(input, pesan) {
     input.setAttribute("aria-describedby", span.id);
 }
 
+// Menghapus pesan error dan atribut aksesibilitas dari input.
 function hapusError(input) {
     const next = input.nextElementSibling;
     if (next && next.classList.contains("error")) {
@@ -109,10 +120,12 @@ function hapusError(input) {
     input.removeAttribute("aria-describedby");
 }
 
+// Memasang validasi wajib isi, tahun, dan kuota pada formulir yang tersedia.
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
+    // Penambahan line Latihan 5 satu daftar untuk kedua form dan mengabaikan field yang tidak ada
     const fieldWajib = ["nama_kegiatan", "penyelenggara", "tahun", "kuota", "no_peserta", "nama", "asal", "id_kegiatan"];
     const fields = fieldWajib.map(function (nama) {
         return form.querySelector("[name='" + nama + "']");
@@ -124,6 +137,7 @@ function initValidasiForm() {
 
     form.addEventListener("submit", function (e) {
         let valid = true;
+        // Latihan 5 setiap input dalam daftar menjalani validasi yang sama
         fields.forEach(function (input) {
             hapusError(input);
             let pesan = "";
@@ -150,6 +164,7 @@ function initValidasiForm() {
 
         if (!valid) {
             e.preventDefault();
+            // Latihan 5 mengikuti urutan field HTML bukan array.
             form.querySelector("[aria-invalid='true']").focus();
         }
     });
