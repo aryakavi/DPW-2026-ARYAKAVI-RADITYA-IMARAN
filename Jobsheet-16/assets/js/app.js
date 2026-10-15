@@ -3,7 +3,6 @@ function initNavToggle() {
     const nav = document.querySelector("header nav");
     if (!toggleBtn || !nav) return;
 
-    // perubahan yang untuk latihan 2, memasang class transition
     const mobile = window.matchMedia("(max-width: 480px)");
     nav.classList.add("transition");
 
@@ -39,7 +38,6 @@ function initHapusConfirm() {
     });
 }
 
-// Latihan 3 Filter satu kolom pilih atau semua sel data
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
@@ -62,7 +60,6 @@ function initTableFilter() {
 
     input.addEventListener("keyup", filterRows);
     input.addEventListener("input", filterRows);
-    // Latihan 3 untuk kolom langsung menerapkan kata kunci
     column.addEventListener("change", filterRows);
     table.addEventListener("table:updated", function () {
         initTableCounter();
@@ -70,7 +67,6 @@ function initTableFilter() {
     });
 }
 
-// Latihan 4 menyimpan jumlah awal
 function initTableCounter() {
     const counter = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
@@ -80,13 +76,11 @@ function initTableCounter() {
     updateTableCounter();
 }
 
-// Latihan 4 Hanya baris yang terlihat dihitung
 function updateTableCounter() {
     const counter = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
     if (!counter || !table) return;
 
-    // UBAH: pesan gagal/kosong tidak dihitung sebagai data ketika fetch bermasalah.
     const rows = Array.from(table.querySelectorAll("tbody tr:not([data-status])"));
     const terlihat = rows.filter(function (row) {
         return getComputedStyle(row).display !== "none";
@@ -115,12 +109,10 @@ function hapusError(input) {
     input.removeAttribute("aria-describedby");
 }
 
-// Latihan 5 blok diganti loop berdasar array nama field
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
-    // Penambahan line Latihan 5 satu daftar untuk kedua form dan mengabaikan field yang tidak ada
     const fieldWajib = ["nama_kegiatan", "penyelenggara", "tahun", "kuota", "no_peserta", "nama", "asal", "id_kegiatan"];
     const fields = fieldWajib.map(function (nama) {
         return form.querySelector("[name='" + nama + "']");
@@ -132,7 +124,6 @@ function initValidasiForm() {
 
     form.addEventListener("submit", function (e) {
         let valid = true;
-        // Latihan 5 setiap input dalam daftar menjalani validasi yang sama
         fields.forEach(function (input) {
             hapusError(input);
             let pesan = "";
@@ -159,7 +150,6 @@ function initValidasiForm() {
 
         if (!valid) {
             e.preventDefault();
-            // Latihan 5 mengikuti urutan field HTML bukan array.
             form.querySelector("[aria-invalid='true']").focus();
         }
     });
