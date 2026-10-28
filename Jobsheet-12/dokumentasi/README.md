@@ -7,92 +7,95 @@
 
 ---
 
-# Dokumentasi Jobsheet 11 — Keamanan Web Dasar
+# Dokumentasi Jobsheet 12 — Integrasi Modul Peminjaman
 
 Dokumentasi ini melanjutkan
-[dokumentasi jobsheet-10](../../jobsheet-10/Dokumentasi/README.md)
-(Autentikasi & Manajemen Sesi). Jobsheet-11 menutup **janji** yang
-sudah disebutkan berkali-kali di dokumentasi sebelumnya — ingat catatan
-di [dokumentasi jobsheet-09](../../jobsheet-09/Dokumentasi/05-pagination-dan-pencarian-server.md#58-form-pencarian-methodget):
-*"celah ini akan dibahas dan diperbaiki di Jobsheet 11"* — sekarang
-saatnya.
+[dokumentasi jobsheet-11](../../jobsheet-11/Dokumentasi/README.md)
+(Keamanan Web Dasar). Jobsheet-12 adalah **puncak** dari seluruh
+rangkaian jobsheet SIMPUS-Mini — ingat wireframe Peminjaman/Pengembalian
+yang sudah kamu bedah sejak
+[dokumentasi jobsheet-04 §3](../../jobsheet-04/Dokumentasi/03-user-flow-peminjaman-pengembalian.md),
+8 jobsheet yang lalu — sekarang **benar-benar dibangun**, menghubungkan
+**semua** yang sudah kamu pelajari: HTML/CSS, PHP, database, sesi,
+otorisasi, dan keamanan, sekaligus dalam satu fitur.
 
-## Tentang `docs/wireframe.md`
+## Tentang `docs/wireframe.md` dan `docs/security-checklist.md`
 
-File ini **identik persis** dengan
-[`docs/wireframe.md` di jobsheet-10](../../jobsheet-10/docs/wireframe.md).
+Kedua file ini **identik persis** dengan versi di
+[jobsheet-11](../../jobsheet-11/docs/). Tidak ada rancangan UI/UX
+maupun audit keamanan baru — jobsheet ini murni **mengimplementasikan**
+apa yang sudah dirancang dan diamankan sebelumnya.
 
-## Apa yang Baru di Jobsheet 11?
+## Apa yang Baru di Jobsheet 12?
 
-Sesuai [README.md](../README.md) jobsheet ini, ada **audit keamanan
-menyeluruh** terhadap kode Jobsheet 7-10, mencakup 5 kerentanan
-(lihat detail lengkapnya di
-[`docs/security-checklist.md`](../docs/security-checklist.md)):
+Sesuai [README.md](../README.md) jobsheet ini:
 
-1. **SQL Injection** — diaudit ulang, sudah aman sejak jobsheet-08
-   (tidak ada perubahan kode).
-2. **XSS (Cross-Site Scripting)** — seluruh output data dari
-   database/`$_GET` sekarang dibungkus fungsi `e()` baru.
-3. **CSRF (Cross-Site Request Forgery)** — token tersembunyi
-   ditambahkan ke semua form `POST`, diverifikasi sebelum menyentuh
-   database.
-4. **Validasi & Sanitasi Input** — diaudit ulang, ditambah type casting
-   eksplisit di beberapa tempat.
-5. **Session Fixation** — `session_regenerate_id(true)` dipanggil
-   setelah login berhasil.
+1. **`sql/03_peminjaman.sql`** — tabel `peminjaman` baru, **terhubung**
+   (lewat *foreign key*) ke tabel `buku` dan `anggota` yang sudah ada
+   sejak jobsheet-08.
+2. **`peminjaman/tambah.php` + `proses_tambah.php`** — mencatat
+   peminjaman baru **dan** mengurangi stok buku **dalam satu
+   transaction**, dengan `SELECT ... FOR UPDATE` untuk mencegah *race
+   condition*.
+3. **`peminjaman/kembali.php` + `proses_kembali.php`** — daftar
+   transaksi aktif, tombol Kembalikan yang menambah kembali stok buku.
+4. **`peminjaman/riwayat.php`** — histori peminjaman per anggota,
+   memakai `JOIN` untuk menggabungkan data dari 3 tabel sekaligus.
+5. **Navbar** menambahkan 3 menu baru (Peminjaman Baru, Pengembalian,
+   Riwayat), hanya untuk Petugas yang login.
+6. **Kartu "Sedang Dipinjam"** di Beranda kini benar-benar dihitung
+   dari database, menggantikan angka statis `0` sejak jobsheet-01.
 
-Dua file baru menjadi pusat perubahan ini: **`includes/helpers.php`**
-(fungsi `e()`) dan **`includes/csrf.php`** (`csrf_token()`,
-`csrf_field()`, `csrf_verify()`).
+## Ide Latihan Tambahan (Opsional)
 
-## 6.4 Ide Latihan Tambahan (Opsional)
-
-1. **Tambah proteksi CSRF ke form pencarian** — form `method="get"` di
-   `buku/list.php`
-   ([dokumentasi jobsheet-09 §5.8](../../jobsheet-09/Dokumentasi/05-pagination-dan-pencarian-server.md#58-form-pencarian-methodget))
-   **sengaja tidak** diberi token CSRF — diskusikan sendiri kenapa: apa
-   bedanya risiko form `GET` (yang hanya membaca data) dengan form
-   `POST` (yang mengubah data) dalam konteks serangan CSRF?
-2. **Tambah baris baru ke `security-checklist.md`** — audit satu
-   bagian aplikasi yang belum eksplisit disebutkan (misalnya:
-   "Apakah pesan error PHP mentah pernah bocor ke pengguna, membocorkan
-   detail struktur database/server?"), lengkap dengan kolom Sebelum/
-   Sesudah seperti baris-baris lainnya.
-3. **Terapkan `e()` di halaman yang belum diperiksa** — telusuri
-   sendiri apakah ada tempat lain di aplikasi (di luar yang disebutkan
-   di [README.md](../README.md)) yang mencetak data dari database/
-   `$_GET`/`$_POST` tanpa dibungkus `e()`.
-4. **Pelajari `Content-Security-Policy` (CSP)** — cari tahu lewat
-   dokumentasi web resmi bagaimana header HTTP ini bisa menjadi
-   **lapisan pertahanan tambahan** terhadap XSS, bahkan seandainya ada
-   satu tempat yang lolos dari `e()` tanpa sengaja.
+1. **Terapkan validasi bisnis yang belum ada** — sesuai catatan di
+   [README.md](../README.md) jobsheet ini: anggota dengan peminjaman
+   **terlambat lebih dari 14 hari** tidak boleh meminjam buku baru.
+   Petunjuk: hitung selisih `CURRENT_DATE` dengan `tanggal_pinjam` pada
+   transaksi aktif anggota tersebut sebelum mengizinkan `INSERT` baru
+   di `proses_tambah.php`.
+2. **Tambah kolom "jatuh tempo"** — misalnya `tanggal_jatuh_tempo DATE`
+   yang otomatis diisi 14 hari setelah `tanggal_pinjam` (petunjuk: cari
+   fungsi tanggal PostgreSQL seperti `tanggal_pinjam + INTERVAL '14 days'`),
+   lalu tampilkan di `kembali.php` untuk membantu Petugas melihat
+   transaksi mana yang sudah lewat jatuh tempo.
+3. **Uji race condition secara manual** — buka dua tab browser
+   berbeda (atau dua sesi terpisah), coba pinjamkan buku dengan stok
+   tersisa 1 dari **kedua** tab hampir bersamaan. Amati hanya **satu**
+   yang berhasil, yang lain mendapat pesan "Stok buku tidak tersedia."
+   (bukti `FOR UPDATE` dari [bab 3 §3.5](03-peminjaman-baru-dan-transaction.md#35-mencegah-race-condition-select--for-update)
+   bekerja).
+4. **Tambah `JOIN` tambahan di `kembali.php`/`riwayat.php`** — misalnya
+   sertakan juga kolom `no_hp` anggota (dari tabel `anggota`) di daftar
+   transaksi aktif, sebagai latihan menambah kolom ke query `JOIN` yang
+   sudah ada.
 
 
 ## Struktur Folder
 
 ```
-jobsheet-11/
+jobsheet-12/
+├── index.php                       # Kartu "Sedang Dipinjam" kini dari database
 ├── includes/
-│   ├── helpers.php               # BARU — fungsi e() untuk XSS
-│   ├── csrf.php                   # BARU — token CSRF
-│   ├── auth.php                   # Tidak berubah dari jobsheet-10
-│   └── header.php                 # require_once helpers.php & csrf.php
-├── auth/
-│   ├── proses_login.php            # + session_regenerate_id(true), csrf_verify()
-│   └── ...                          # + csrf_field() di form
-├── buku/, anggota/
-│   ├── list.php, edit.php            # Output dibungkus e()
-│   ├── tambah.php, edit.php           # + csrf_field() di form
-│   └── proses_*.php, hapus.php        # + csrf_verify()
+│   ├── header.php                    # + 3 menu Peminjaman
+│   └── ...                            # Tidak berubah lainnya
+├── peminjaman/
+│   ├── tambah.php, proses_tambah.php  # BARU — transaction + FOR UPDATE
+│   ├── kembali.php, proses_kembali.php # BARU — transaction serupa
+│   └── riwayat.php                     # BARU — JOIN 2 tabel
+├── sql/
+│   ├── 01_buku_anggota.sql
+│   ├── 02_users.sql
+│   └── 03_peminjaman.sql               # BARU — tabel peminjaman + foreign key
+├── buku/, anggota/, auth/               # Tidak berubah dari jobsheet-11
 ├── docs/
-│   ├── wireframe.md                   # Identik dengan jobsheet-10
-│   └── security-checklist.md          # BARU — audit lengkap
+│   ├── wireframe.md                     # Identik dengan jobsheet-11
+│   └── security-checklist.md            # Identik dengan jobsheet-11
 ├── README.md
-└── Dokumentasi/                        # Folder dokumentasi ini
+└── Dokumentasi/                          # Folder dokumentasi ini
 ```
 
-**Catatan penting** dari [README.md](../README.md) jobsheet ini: bagian
-"Cara menguji" berisi 3 langkah verifikasi konkret (uji CSRF lewat
-`curl`, uji XSS dengan menyimpan `<script>alert(1)</script>`, dan uji
-urutan guard) — semuanya dibahas ulang di bab-bab berikutnya dan
-dirangkum di [bab 6](06-rangkuman-latihan.md).
+**Catatan penting** dari [README.md](../README.md) jobsheet ini:
+validasi bisnis tambahan (anggota dengan peminjaman terlambat >14 hari
+tidak boleh meminjam buku baru) **belum diterapkan** — dijadikan tugas
+mandiri (lihat [bab 6](06-rangkuman-latihan.md)).
