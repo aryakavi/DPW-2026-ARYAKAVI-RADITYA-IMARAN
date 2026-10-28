@@ -7,68 +7,65 @@
 
 ---
 
-# Dokumentasi Jobsheet 12 — Integrasi Modul Peminjaman
+# Dokumentasi Jobsheet 13 — Deployment & Dokumentasi
 
 Dokumentasi ini melanjutkan
-[dokumentasi jobsheet-11](../../jobsheet-11/Dokumentasi/README.md)
-(Keamanan Web Dasar). Jobsheet-12 adalah **puncak** dari seluruh
-rangkaian jobsheet SIMPUS-Mini — ingat wireframe Peminjaman/Pengembalian
-yang sudah kamu bedah sejak
-[dokumentasi jobsheet-04 §3](../../jobsheet-04/Dokumentasi/03-user-flow-peminjaman-pengembalian.md),
-8 jobsheet yang lalu — sekarang **benar-benar dibangun**, menghubungkan
-**semua** yang sudah kamu pelajari: HTML/CSS, PHP, database, sesi,
-otorisasi, dan keamanan, sekaligus dalam satu fitur.
+[dokumentasi jobsheet-12](../../jobsheet-12/Dokumentasi/README.md)
+(Integrasi Modul Peminjaman). Jobsheet-13 adalah **jobsheet penutup**
+seluruh rangkaian SIMPUS-Mini — sesuai judulnya, "Deployment &
+Dokumentasi": bukan menambah fitur baru, melainkan **menyiapkan**
+aplikasi yang sudah selesai dibangun (Jobsheet 1-12) supaya siap
+**dijalankan di tempat lain** (server produksi/hosting) dan **dipahami
+orang lain** (dokumentasi proyek).
 
-## Tentang `docs/wireframe.md` dan `docs/security-checklist.md`
+## Kabar Baik: Hampir Semua Kode Aplikasi Tidak Berubah
 
-Kedua file ini **identik persis** dengan versi di
-[jobsheet-11](../../jobsheet-11/docs/). Tidak ada rancangan UI/UX
-maupun audit keamanan baru — jobsheet ini murni **mengimplementasikan**
-apa yang sudah dirancang dan diamankan sebelumnya.
+Diperiksa langsung: **satu-satunya** perbedaan kode dari jobsheet-12
+ada di 3 file — `includes/koneksi.php`, file baru `includes/config.php`,
+dan `includes/footer.php` (hanya label tahun). Seluruh logika CRUD
+Buku/Anggota, autentikasi, CSRF, dan modul Peminjaman **identik
+persis** dengan jobsheet-12 — sudah dibahas tuntas di
+[dokumentasi jobsheet-07](../../jobsheet-07/Dokumentasi/README.md)
+sampai
+[dokumentasi jobsheet-12](../../jobsheet-12/Dokumentasi/README.md).
 
-## Apa yang Baru di Jobsheet 12?
+## Apa yang Baru di Jobsheet 13?
 
 Sesuai [README.md](../README.md) jobsheet ini:
 
-1. **`sql/03_peminjaman.sql`** — tabel `peminjaman` baru, **terhubung**
-   (lewat *foreign key*) ke tabel `buku` dan `anggota` yang sudah ada
-   sejak jobsheet-08.
-2. **`peminjaman/tambah.php` + `proses_tambah.php`** — mencatat
-   peminjaman baru **dan** mengurangi stok buku **dalam satu
-   transaction**, dengan `SELECT ... FOR UPDATE` untuk mencegah *race
-   condition*.
-3. **`peminjaman/kembali.php` + `proses_kembali.php`** — daftar
-   transaksi aktif, tombol Kembalikan yang menambah kembali stok buku.
-4. **`peminjaman/riwayat.php`** — histori peminjaman per anggota,
-   memakai `JOIN` untuk menggabungkan data dari 3 tabel sekaligus.
-5. **Navbar** menambahkan 3 menu baru (Peminjaman Baru, Pengembalian,
-   Riwayat), hanya untuk Petugas yang login.
-6. **Kartu "Sedang Dipinjam"** di Beranda kini benar-benar dihitung
-   dari database, menggantikan angka statis `0` sejak jobsheet-01.
+1. **`includes/config.php`** — file baru yang memisahkan **kredensial**
+   database dari kode sumber, membaca dari *environment variable*
+   dengan nilai cadangan (fallback) untuk pengembangan lokal.
+2. **`includes/koneksi.php`** diubah untuk membaca konfigurasi dari
+   `config.php`, bukan lagi menuliskan kredensial langsung di kodenya.
+3. **`docs/manual-pengguna.md`** — panduan penggunaan aplikasi untuk
+   pengguna akhir (bukan dokumentasi kode untuk developer).
+4. **`README.md`** (di root proyek) menjadi **snapshot akhir** proyek:
+   ERD final, matriks fitur per role, instruksi instalasi lengkap.
 
 ## Ide Latihan Tambahan (Opsional)
 
-1. **Terapkan validasi bisnis yang belum ada** — sesuai catatan di
-   [README.md](../README.md) jobsheet ini: anggota dengan peminjaman
-   **terlambat lebih dari 14 hari** tidak boleh meminjam buku baru.
-   Petunjuk: hitung selisih `CURRENT_DATE` dengan `tanggal_pinjam` pada
-   transaksi aktif anggota tersebut sebelum mengizinkan `INSERT` baru
-   di `proses_tambah.php`.
-2. **Tambah kolom "jatuh tempo"** — misalnya `tanggal_jatuh_tempo DATE`
-   yang otomatis diisi 14 hari setelah `tanggal_pinjam` (petunjuk: cari
-   fungsi tanggal PostgreSQL seperti `tanggal_pinjam + INTERVAL '14 days'`),
-   lalu tampilkan di `kembali.php` untuk membantu Petugas melihat
-   transaksi mana yang sudah lewat jatuh tempo.
-3. **Uji race condition secara manual** — buka dua tab browser
-   berbeda (atau dua sesi terpisah), coba pinjamkan buku dengan stok
-   tersisa 1 dari **kedua** tab hampir bersamaan. Amati hanya **satu**
-   yang berhasil, yang lain mendapat pesan "Stok buku tidak tersedia."
-   (bukti `FOR UPDATE` dari [bab 3 §3.5](03-peminjaman-baru-dan-transaction.md#35-mencegah-race-condition-select--for-update)
-   bekerja).
-4. **Tambah `JOIN` tambahan di `kembali.php`/`riwayat.php`** — misalnya
-   sertakan juga kolom `no_hp` anggota (dari tabel `anggota`) di daftar
-   transaksi aktif, sebagai latihan menambah kolom ke query `JOIN` yang
-   sudah ada.
+1. **Tambah `.env.example`** — buat file baru bernama `.env.example`
+   berisi daftar nama environment variable yang dibutuhkan (`DB_HOST`,
+   `DB_PORT`, dst.) **tanpa** nilai sungguhan, sebagai contoh/template
+   untuk siapa pun yang men-deploy aplikasi ini — pola yang sangat
+   umum dipakai di proyek sungguhan (cari tahu sendiri lewat referensi
+   umum tentang file `.env` di proyek web).
+2. **Lengkapi validasi bisnis yang masih tertunda** — ingat dari
+   [dokumentasi jobsheet-12 §6.4](../../jobsheet-12/Dokumentasi/06-rangkuman-latihan.md#64-ide-latihan-tambahan-opsional),
+   aturan "anggota terlambat >14 hari tidak boleh meminjam" masih
+   belum diterapkan — coba selesaikan sebagai latihan akhir yang
+   menggabungkan hampir semua konsep yang sudah kamu pelajari (query
+   SQL, transaction, validasi, flash message).
+3. **Sisipkan screenshot sungguhan** ke `manual-pengguna.md` — jalankan
+   aplikasi di lab dengan PostgreSQL aktif, ambil tangkapan layar
+   nyata di setiap langkah bertanda `[Screenshot]`, lengkapi dokumen
+   itu sesuai catatannya sendiri.
+4. **Tulis "lessons learned"-mu sendiri** — coba tulis 1 halaman
+   ringkasan (terpisah dari dokumentasi ini) tentang konsep pemrograman
+   web apa yang menurutmu paling menantang dari seluruh 13 jobsheet
+   ini, dan kenapa — latihan reflektif yang bagus sebelum presentasi
+   UAS.
 
 
 ## Struktur Folder
